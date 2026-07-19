@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b23a2f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="江南五日游" />
+  <title>上海・苏州・杭州｜五天四夜</title>
+  <style>
+    :root{
+      --bg:#f7f1e7;--card:#fffdf8;--text:#2c2824;--muted:#746b62;
+      --primary:#b23a2f;--accent:#d7a04b;--green:#557a64;--blue:#486f8c;
+      --line:#eadfce;--shadow:0 12px 32px rgba(72,49,33,.10);
+      --radius:22px;--nav-h:74px
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;color:var(--text);
+      background:radial-gradient(circle at top right,rgba(215,160,75,.14),transparent 28%),linear-gradient(180deg,#f9f4eb,#f3ebdf);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+      padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-inset-bottom))
+    }
+    button,a,input{font:inherit} button{touch-action:manipulation} a{text-decoration:none;color:inherit}
+    .app{max-width:760px;margin:0 auto}
+    .hero{
+      position:relative;min-height:320px;padding:calc(30px + env(safe-area-inset-top)) 22px 34px;
+      color:#fff;overflow:hidden;background:linear-gradient(135deg,#557a64 0%,#b23a2f 72%)
+    }
+    .hero:before{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border:1px solid rgba(255,255,255,.18);border-radius:50%}
+    .hero:after{content:"";position:absolute;inset:auto -60px -95px -60px;height:170px;border-radius:50% 50% 0 0;background:var(--bg)}
+    .hero-content{position:relative;z-index:1}
+    .eyebrow{display:inline-flex;padding:7px 12px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(0,0,0,.14);font-size:13px;font-weight:700;letter-spacing:.08em}
+    h1{font-size:36px;line-height:1.15;margin:18px 0 10px}
+    .hero p{margin:0;color:rgba(255,255,255,.9);line-height:1.7}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+    .stat{padding:12px 10px;border-radius:16px;text-align:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25)}
+    .stat strong{display:block;font-size:18px}.stat span{font-size:12px;color:rgba(255,255,255,.84)}
+    main{position:relative;z-index:2;padding:0 16px}
+    .section{display:none}.section.active{display:block}
+    .overview{margin-top:-46px;margin-bottom:18px;padding:18px;border-radius:var(--radius);background:rgba(255,253,248,.97);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.8)}
+    .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .mini{padding:14px;border-radius:17px;background:#faf6ef;border:1px solid var(--line)}
+    .mini small{display:block;color:var(--muted);margin-bottom:5px}.mini b{font-size:15px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin:4px 4px 14px}
+    .section-head h2{font-size:24px;margin:0}.section-head p{margin:0;color:var(--muted);font-size:13px}
+    .day-tabs{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}.day-tabs::-webkit-scrollbar{display:none}
+    .day-tab{flex:0 0 auto;border:0;border-radius:14px;padding:11px 14px;background:#eee4d6;color:var(--muted);font-weight:800}
+    .day-tab.active{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(178,58,47,.25)}
+    .day-panel{display:none}.day-panel.active{display:block}
+    .day-summary{padding:18px;margin-bottom:14px;border-radius:var(--radius);color:#fff;background:linear-gradient(135deg,var(--primary),#d06d4e);box-shadow:var(--shadow)}
+    .day-summary .city{font-size:13px;opacity:.85;letter-spacing:.12em}.day-summary h3{font-size:24px;margin:7px 0 6px}.day-summary p{margin:0;line-height:1.6;opacity:.9}
+    .timeline{position:relative;margin-left:7px;padding-left:24px}.timeline:before{content:"";position:absolute;left:7px;top:8px;bottom:10px;width:2px;background:#dccab6}
+    .item{position:relative;margin-bottom:14px}.item:before{content:"";position:absolute;left:-21px;top:21px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+    .item.move:before{background:var(--blue)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 8px 22px rgba(78,53,34,.07)}
+    .move .card{background:#f6fbff;border-color:#d8e6ef}
+    .time{font-size:13px;color:var(--primary);font-weight:900;margin-bottom:6px}.move .time{color:var(--blue)}
+    .card h4{font-size:18px;margin:0 0 7px}.card p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.tag{font-size:12px;padding:5px 9px;border-radius:999px;background:#f0e7da;color:#6b5b4c}.move .tag{background:#e8f1f7;color:#3f6278}
+    .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+    .btn{border:0;border-radius:12px;padding:10px 13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+    .btn.primary{background:var(--primary);color:#fff}.btn.secondary{background:#efe6da;color:#5e5146}.btn.green{background:#e5f0ea;color:#3c6751}.btn.danger{background:#f8e7e4;color:#a13b31}
+    .notice{margin:14px 0;padding:14px 15px;border-radius:16px;background:#fff5dd;border:1px solid #ecd7a7;color:#735d2e;line-height:1.6;font-size:14px}
+    .list-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:13px;box-shadow:0 8px 22px rgba(78,53,34,.06)}
+    .list-card h3{font-size:18px;margin:0 0 10px}
+    .route-row,.hotel-row{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px dashed var(--line)}
+    .route-row:first-of-type,.hotel-row:first-of-type{border-top:0}
+    .icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;background:#f1e8dc;font-size:20px}
+    .grow{flex:1;min-width:0}.grow b{display:block;margin-bottom:4px}.grow span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+    .progress-wrap{padding:17px;border-radius:20px;background:linear-gradient(135deg,#385f4b,#6d917a);color:#fff;margin-bottom:15px}
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:10px}.bar{height:10px;background:rgba(255,255,255,.22);border-radius:999px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:#fff;border-radius:999px}
+    .toolbar{display:flex;gap:9px;margin-bottom:14px}.toolbar .btn{flex:1}
+    .packing-group{margin-bottom:15px}.group-title{display:flex;justify-content:space-between;align-items:center;padding:0 4px 8px}.group-title h3{font-size:17px;margin:0}
+    .check-item{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:8px;background:var(--card);border:1px solid var(--line);border-radius:15px}
+    .check-item input{width:21px;height:21px;accent-color:var(--primary)}.check-item .item-name{flex:1}.check-item.done .item-name{text-decoration:line-through;color:#a69b90}
+    .row-edit{border:0;background:transparent;font-size:17px;padding:5px;cursor:pointer}
+    .budget-total{padding:20px;border-radius:22px;color:#fff;background:linear-gradient(135deg,#8f2c24,#c86246);box-shadow:var(--shadow);margin-bottom:15px}
+    .budget-total small{opacity:.8}.budget-total strong{display:block;font-size:34px;margin:5px 0}.budget-note{font-size:13px;opacity:.85}
+    .budget-item{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:1px dashed var(--line)}
+    .budget-item:first-child{border-top:0}.budget-name{font-weight:800}.budget-sub{font-size:12px;color:var(--muted);margin-top:3px}.budget-amount{font-weight:900;color:var(--primary);white-space:nowrap}
+    .budget-actions{display:flex;gap:4px;grid-column:2/4;justify-content:flex-end}
+    .bottom-nav{position:fixed;z-index:99;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);height:calc(var(--nav-h) + env(safe-area-inset-bottom));padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:rgba(255,253,248,.94);backdrop-filter:blur(16px);border-top:1px solid rgba(214,196,174,.8);display:grid;grid-template-columns:repeat(5,1fr)}
+    .nav-btn{border:0;background:transparent;border-radius:15px;color:#887a6d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:800}
+    .nav-btn span:first-child{font-size:22px;line-height:1}.nav-btn.active{color:var(--primary);background:#f6e8e3}
+    .modal{position:fixed;inset:0;z-index:200;background:rgba(30,20,15,.52);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}
+    .modal-box{width:min(760px,100%);max-height:82vh;overflow:auto;background:var(--card);border-radius:26px 26px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom))}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.modal-head h3{margin:0}.close{border:0;background:#eee5d8;border-radius:50%;width:36px;height:36px;font-size:20px}
+    .form-field{margin-bottom:13px}.form-field label{display:block;font-weight:800;font-size:14px;margin-bottom:6px}.form-field input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--text)}
+    @media(min-width:700px){body{padding-top:20px}.hero{border-radius:28px 28px 0 0}.bottom-nav{bottom:12px;border:1px solid var(--line);border-radius:22px;width:min(720px,calc(100% - 24px));box-shadow:var(--shadow)}}
+  
+    .upgrade-panel{
+      margin:0 0 16px;padding:16px;border-radius:20px;
+      background:linear-gradient(135deg,#2f5f55,#4d7f72);color:#fff;
+      box-shadow:var(--shadow)
+    }
+    .upgrade-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .upgrade-head h3{margin:0 0 5px;font-size:19px}
+    .upgrade-head p{margin:0;font-size:13px;line-height:1.55;opacity:.86}
+    .countdown{font-size:26px;font-weight:900;white-space:nowrap}
+    .quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}
+    .quick-btn{
+      border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);
+      color:#fff;border-radius:14px;padding:11px 8px;font-weight:800;cursor:pointer
+    }
+    .next-card{
+      margin-bottom:14px;padding:16px;border-radius:20px;background:linear-gradient(135deg,#fff,#f5eee4);
+      border:1px solid var(--line);box-shadow:0 8px 22px rgba(78,53,34,.06)
+    }
+    .next-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .next-card small{color:var(--muted)} .next-card h3{margin:5px 0 4px;font-size:20px}
+    .next-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+    .note-area{
+      width:100%;min-height:130px;padding:13px;border:1px solid var(--line);border-radius:15px;
+      resize:vertical;background:#fff;color:var(--text);line-height:1.6
+    }
+    .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .tool-card{padding:14px;border-radius:16px;background:#faf6ef;border:1px solid var(--line)}
+    .tool-card b{display:block;margin-bottom:5px}.tool-card span{font-size:12px;color:var(--muted);line-height:1.45}
+    .converter{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:10px}
+    .converter input{width:100%;padding:11px;border:1px solid var(--line);border-radius:12px}
+    .converter .swap{font-weight:900;color:var(--primary)}
+    .spent-input{
+      width:88px;padding:8px;border:1px solid var(--line);border-radius:10px;text-align:right
+    }
+    .remaining-positive{color:#3c7658}.remaining-negative{color:#b23a2f}
+    .floating-tools{
+      position:fixed;right:14px;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 14px);
+      z-index:90;display:flex;flex-direction:column;gap:8px
+    }
+    .float-btn{
+      width:46px;height:46px;border-radius:50%;border:0;background:var(--primary);color:#fff;
+      box-shadow:0 8px 20px rgba(100,50,35,.25);font-size:20px;cursor:pointer
+    }
+    body.dark{
+      --bg:#1f211f;--card:#292c29;--text:#f4efe8;--muted:#b9b0a8;--line:#40453f;
+      background:#1f211f
+    }
+    body.dark .overview,body.dark .mini,body.dark .card,body.dark .list-card,
+    body.dark .check-item,body.dark .modal-box,body.dark .next-card,body.dark .tool-card{
+      background:#292c29
+    }
+    body.dark .move .card{background:#26343b}
+    body.dark input,body.dark textarea{background:#202320;color:#f4efe8;border-color:#454a44}
+    body.dark .bottom-nav{background:rgba(36,39,36,.95)}
+
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">✦ 江南风景线</div>
+      <h1>上海・苏州・杭州<br>五天四夜</h1>
+      <p>完全依照原行程整理，并在每次换地点时补上预计移动时间。</p>
+      <div class="hero-stats">
+        <div class="stat"><strong>5 天</strong><span>11/13–11/17</span></div>
+        <div class="stat"><strong>3 城</strong><span>上海・苏州・杭州</span></div>
+        <div class="stat"><strong>4 晚</strong><span>静安・平江・湖滨</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="itinerary" class="section active">
+      <div class="overview">
+        <div class="overview-grid">
+          <div class="mini"><small>地图导航</small><b>全部使用高德地图</b></div>
+          <div class="mini"><small>跨城交通</small><b>高铁优先</b></div>
+          <div class="mini"><small>行程原则</small><b>不更动原时段</b></div>
+          <div class="mini"><small>移动备注</small><b>每站都有预计时间</b></div>
+        </div>
+      </div>
+
+      
+      <div class="upgrade-panel">
+        <div class="upgrade-head">
+          <div>
+            <h3>旅行助手</h3>
+            <p id="tripStatus">正在计算距离出发时间…</p>
+          </div>
+          <div class="countdown" id="countdownDays">-- 天</div>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-btn" onclick="showNextStop()">📍 下一站</button>
+          <button class="quick-btn" onclick="openToolModal()">🧰 实用工具</button>
+          <button class="quick-btn" onclick="shareTrip()">↗️ 分享行程</button>
+          <button class="quick-btn" onclick="toggleDark()">🌙 深色模式</button>
+        </div>
+      </div>
+      <div class="next-card" id="nextStopCard">
+        <div class="next-top">
+          <div><small>快速导航</small><h3 id="nextStopName">上海浦东国际机场</h3></div>
+          <button class="btn primary" onclick="navigateNext()">高德导航</button>
+        </div>
+        <p id="nextStopInfo">抵达后办理入境、取行李与手机卡。</p>
+      </div>
+
+      <div class="section-head"><div><h2>每日行程</h2><p>点选日期切换</p></div></div>
+      <div class="day-tabs">
+        <button class="day-tab active" data-day="1">D1 上海</button>
+        <button class="day-tab" data-day="2">D2 苏州</button>
+        <button class="day-tab" data-day="3">D3 杭州</button>
+        <button class="day-tab" data-day="4">D4 杭州→上海</button>
+        <button class="day-tab" data-day="5">D5 上海</button>
+      </div>
+
+      <div class="day-panel active" data-panel="1">
+        <div class="day-summary"><div class="city">DAY 1 · SHANGHAI · 11/13</div><h3>浦东机场・南京路・外滩・陆家嘴</h3><p>住宿：静安区</p></div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">12:05</div><h4>抵达浦东机场</h4><p>办理手机卡：59 元芒果卡套餐。建议预留入境、取行李、办卡约 60–90 分钟。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=上海浦东国际机场&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">约 13:10–14:00｜移动</div><h4>浦东机场 → 南京路</h4><p>建议地铁 2 号线或磁悬浮转地铁。</p><div class="tags"><span class="tag">约 50–70 分钟</span><span class="tag">含步行与等车</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">14:00 左右</div><h4>抵达南京路</h4><p>先寄放行李或办理入住。</p></div></div>
+          <div class="item"><div class="card"><div class="time">14:30–16:30</div><h4>南京路步行街</h4><p>逛街＋小吃。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=南京路步行街&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">16:30–17:00｜移动</div><h4>南京路步行街 → 外滩</h4><p>沿南京东路步行前往。</p><div class="tags"><span class="tag">约 15–25 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">17:00–18:30</div><h4>外滩</h4><p>傍晚到夜间看浦东天际线。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=上海外滩&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">18:30 前后｜移动</div><h4>外滩 → 晚餐地点</h4><p>建议就近选择南京东路、外滩或陆家嘴沿线。</p><div class="tags"><span class="tag">约 10–25 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">18:30–20:00</div><h4>晚餐</h4><p>尽量选择下一站方向，减少绕路。</p></div></div>
+          <div class="item move"><div class="card"><div class="time">20:00–20:30｜移动</div><h4>晚餐地点 → 陆家嘴</h4><p>建议搭地铁 2 号线，或从外滩搭渡轮。</p><div class="tags"><span class="tag">约 20–30 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">20:30–22:00</div><h4>陆家嘴＋东方明珠</h4><p>如需登塔，建议提前购票。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=东方明珠广播电视塔&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">22:00 后｜移动</div><h4>陆家嘴 → 静安区住宿</h4><p>建议地铁或网约车。</p><div class="tags"><span class="tag">约 30–45 分钟</span></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="2">
+        <div class="day-summary"><div class="city">DAY 2 · SUZHOU · 11/14</div><h3>拙政园・狮子林・平江路・山塘街</h3><p>住宿：平江路附近</p></div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">09:00</div><h4>去苏州</h4><p>建议搭高铁，提早 45–60 分钟抵达车站。</p></div></div>
+          <div class="item move"><div class="card"><div class="time">约 09:00–10:15｜移动</div><h4>上海 → 苏州 → 拙政园</h4><p>高铁约 25–40 分钟，苏州站到拙政园约 25–40 分钟。</p><div class="tags"><span class="tag">总计约 60–90 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">10:30–12:00</div><h4>拙政园</h4><p>热门园林建议提前预约。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=拙政园&city=苏州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">12:00 前后｜移动</div><h4>拙政园 → 午餐地点</h4><p>建议在东北街或平江路附近用餐。</p><div class="tags"><span class="tag">约 5–15 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">12:00–13:00</div><h4>午餐</h4></div></div>
+          <div class="item move"><div class="card"><div class="time">13:00–13:30｜移动</div><h4>午餐地点 → 狮子林</h4><p>步行前往。</p><div class="tags"><span class="tag">约 10–20 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">13:30–14:30</div><h4>狮子林</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=狮子林&city=苏州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">14:30–15:00｜移动</div><h4>狮子林 → 平江路</h4><p>步行前往。</p><div class="tags"><span class="tag">约 15–25 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">15:00–17:00</div><h4>平江路</h4><p>拍照＋喝茶。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=平江路历史街区&city=苏州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">17:00–17:30｜移动</div><h4>平江路 → 晚餐地点</h4><p>建议就近用餐。</p><div class="tags"><span class="tag">约 5–20 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">17:30–19:00</div><h4>晚餐</h4></div></div>
+          <div class="item move"><div class="card"><div class="time">19:00 前后｜移动</div><h4>晚餐地点 → 山塘街</h4><p>建议地铁或网约车。</p><div class="tags"><span class="tag">约 20–30 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">19:00–20:30</div><h4>山塘街</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=七里山塘景区&city=苏州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">20:30 后｜移动</div><h4>山塘街 → 平江路附近住宿</h4><p>建议网约车或地铁。</p><div class="tags"><span class="tag">约 20–35 分钟</span></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="3">
+        <div class="day-summary"><div class="city">DAY 3 · HANGZHOU · 11/15</div><h3>西湖・雷峰塔・河坊街・Livehouse</h3><p>住宿：湖滨银泰附近</p></div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">09:00</div><h4>去杭州</h4><p>建议搭高铁。</p></div></div>
+          <div class="item move"><div class="card"><div class="time">09:00–11:00｜移动</div><h4>苏州 → 杭州</h4><p>高铁通常约 1.5–2 小时，建议提早 45–60 分钟进站。</p><div class="tags"><span class="tag">约 90–120 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">11:00–12:30</div><h4>午餐</h4></div></div>
+          <div class="item move"><div class="card"><div class="time">12:30–13:00｜移动</div><h4>午餐地点 → 西湖</h4><p>地铁加步行或网约车。</p><div class="tags"><span class="tag">约 20–35 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">13:00–16:30</div><h4>西湖</h4><p>断桥残雪＋曲院风荷＋苏堤。景点间距离较长，建议观光车或分段搭车。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=西湖风景名胜区&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">16:30 前后｜移动</div><h4>西湖 → 雷峰塔</h4><p>视所在位置步行、公交或叫车。</p><div class="tags"><span class="tag">约 20–30 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">16:30–17:20</div><h4>雷峰塔</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=雷峰塔景区&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">17:20 前后｜移动</div><h4>雷峰塔 → MERRY WANNA BE</h4><p>建议网约车。</p><div class="tags"><span class="tag">约 20–35 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">17:20–18:00</div><h4>MERRY WANNA BE｜上城区</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=MERRY WANNA BE&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">18:00 前后｜移动</div><h4>MERRY WANNA BE → 河坊街</h4><p>视实际店址步行或叫车。</p><div class="tags"><span class="tag">约 10–25 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">18:00–20:00</div><h4>河坊街＋南宋御街＋鼓楼</h4><p>三处相邻，可步行串联。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=河坊街&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">20:00–20:30｜移动</div><h4>河坊街 → 老船长 Livehouse</h4><p>建议提前确认演出地址与检票时间。</p><div class="tags"><span class="tag">约 20–30 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">20:30–22:30</div><h4>老船长 Livehouse</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=老船长livehouse&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">22:30 后｜移动</div><h4>Livehouse → 湖滨银泰附近住宿</h4><p>建议网约车。</p><div class="tags"><span class="tag">约 20–40 分钟</span></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="4">
+        <div class="day-summary"><div class="city">DAY 4 · HANGZHOU → SHANGHAI · 11/16</div><h3>灵隐寺・小河直街・拱宸桥・豫园</h3><p>住宿：静安区</p></div>
+        <div class="timeline">
+          <div class="item move"><div class="card"><div class="time">约 08:30–09:30｜移动</div><h4>湖滨住宿 → 灵隐寺</h4><p>早高峰建议提早出发。</p><div class="tags"><span class="tag">约 40–60 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">09:30–11:30</div><h4>灵隐寺＋飞来峰</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=灵隐寺&city=杭州&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">11:30–12:00｜移动</div><h4>灵隐寺 → 午餐地点</h4><p>景区周边叫车可能较慢。</p><div class="tags"><span class="tag">约 20–35 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">12:00–13:00</div><h4>午餐</h4></div></div>
+          <div class="item move"><div class="card"><div class="time">13:00–13:30｜移动</div><h4>午餐地点 → 小河直街</h4><p>建议网约车。</p><div class="tags"><span class="tag">约 25–40 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">13:30–15:30</div><h4>小河直街＋拱宸桥</h4><p>两地可步行或短程叫车串联。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=小河直街历史文化街区&city=杭州&src=jiangnanapp">🧭 小河直街</a><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=拱宸桥&city=杭州&src=jiangnanapp">🧭 拱宸桥</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">15:30–16:00｜移动</div><h4>拱宸桥 → 杭州车站</h4><p>依实际车站选择地铁或网约车。</p><div class="tags"><span class="tag">约 25–45 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">16:00</div><h4>回上海</h4><p>高铁约 1 小时左右。</p></div></div>
+          <div class="item move"><div class="card"><div class="time">约 17:15–18:00｜移动</div><h4>上海车站 → 豫园</h4><p>含出站与市区交通。</p><div class="tags"><span class="tag">约 30–45 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">18:00–20:00</div><h4>豫园＋城隍庙</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=豫园&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">20:00 后｜移动</div><h4>豫园 → 静安区住宿</h4><p>建议地铁或网约车。</p><div class="tags"><span class="tag">约 25–40 分钟</span></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="5">
+        <div class="day-summary"><div class="city">DAY 5 · SHANGHAI · 11/17</div><h3>武康路・田子坊・新天地・返程</h3><p>20:10 飞回台北</p></div>
+        <div class="timeline">
+          <div class="item move"><div class="card"><div class="time">约 09:00–09:30｜移动</div><h4>静安区住宿 → 武康路</h4><p>建议地铁或网约车。</p><div class="tags"><span class="tag">约 20–35 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">09:30–11:30</div><h4>武康路</h4><p>法式梧桐街道。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=武康路历史文化名街&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">11:30–12:00｜移动</div><h4>武康路 → 田子坊</h4><p>地铁或网约车。</p><div class="tags"><span class="tag">约 20–30 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">12:00–13:30</div><h4>田子坊</h4><p>吃＋逛。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=田子坊&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">13:30–14:00｜移动</div><h4>田子坊 → 新天地</h4><p>地铁或网约车。</p><div class="tags"><span class="tag">约 15–25 分钟</span></div></div></div>
+          <div class="item"><div class="card"><div class="time">14:00–16:00</div><h4>新天地</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=上海新天地&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item move"><div class="card"><div class="time">16:00–17:30｜移动</div><h4>新天地 → 浦东机场</h4><p>地铁约 70–90 分钟；网约车约 60–100 分钟，视晚高峰路况。</p><div class="tags"><span class="tag">建议最晚 16:00 出发</span></div><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=上海浦东国际机场&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">20:10</div><h4>飞回台北</h4><p>国际航班建议至少提前 3 小时抵达机场。</p></div></div>
+        </div>
+      </div>
+      <div class="notice">移动时间为一般情况下的估算，实际会受车站、天气、排队、周末人流和塞车影响。</div>
+    </section>
+
+    <section id="transport" class="section">
+      <div class="section-head"><div><h2>交通</h2><p>跨城与市内移动</p></div></div>
+      <div class="list-card">
+        <h3>跨城交通</h3>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>上海 → 苏州</b><span>高铁约 25–40 分钟；建议提早 45–60 分钟进站。</span></div></div>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>苏州 → 杭州</b><span>高铁约 1.5–2 小时；优先选择直达班次。</span></div></div>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>杭州 → 上海</b><span>高铁约 1 小时左右；需另加市区往返车站时间。</span></div></div>
+      </div>
+      <div class="list-card">
+        <h3>市区交通原则</h3>
+        <div class="route-row"><div class="icon">🚇</div><div class="grow"><b>地铁</b><span>上海主城区优先使用，尖峰时段较稳定。</span></div></div>
+        <div class="route-row"><div class="icon">🚕</div><div class="grow"><b>网约车</b><span>灵隐寺、西湖、夜间散场与带行李时较方便。</span></div></div>
+        <div class="route-row"><div class="icon">🧭</div><div class="grow"><b>地图</b><span>本 App 所有导航按钮均使用高德地图。</span></div></div>
+      </div>
+    </section>
+
+    <section id="hotels" class="section">
+      <div class="section-head"><div><h2>住宿</h2><p>依照原行程区域</p></div></div>
+      <div class="list-card"><h3>11/13｜上海静安区</h3><div class="hotel-row"><div class="icon">🏨</div><div class="grow"><b>静安区住宿</b><span>方便首晚回饭店与第五天出发。</span></div></div><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=静安区酒店&city=上海&src=jiangnanapp">高德查看附近住宿</a></div></div>
+      <div class="list-card"><h3>11/14｜苏州平江路附近</h3><div class="hotel-row"><div class="icon">🏡</div><div class="grow"><b>平江路附近住宿</b><span>方便步行感受古城夜景。</span></div></div><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=平江路附近酒店&city=苏州&src=jiangnanapp">高德查看附近住宿</a></div></div>
+      <div class="list-card"><h3>11/15｜杭州湖滨银泰附近</h3><div class="hotel-row"><div class="icon">🌿</div><div class="grow"><b>湖滨银泰附近住宿</b><span>方便西湖、河坊街与夜间活动。</span></div></div><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=湖滨银泰附近酒店&city=杭州&src=jiangnanapp">高德查看附近住宿</a></div></div>
+      <div class="list-card"><h3>11/16｜上海静安区</h3><div class="hotel-row"><div class="icon">🏨</div><div class="grow"><b>静安区住宿</b><span>隔天前往武康路与机场较方便。</span></div></div><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=静安区酒店&city=上海&src=jiangnanapp">高德查看附近住宿</a></div></div>
+    </section>
+
+    <section id="packing" class="section">
+      <div class="section-head"><div><h2>行李清单</h2><p>可新增、改名、删除</p></div></div>
+      <div class="progress-wrap"><div class="progress-top"><b>打包进度</b><span id="progressText">0 / 0</span></div><div class="bar"><i id="progressBar"></i></div></div>
+      <div class="toolbar"><button class="btn green" onclick="openPackModal()">＋ 新增行李</button><button class="btn secondary" onclick="resetPackingChecks()">清除勾选</button></div>
+      <div id="packingList"></div>
+    </section>
+
+    <section id="budget" class="section">
+      <div class="section-head"><div><h2>预算</h2><p>可新增、修改、删除</p></div></div>
+      <div class="budget-total"><small>目前预算总额</small><strong>¥ <span id="budgetTotal">0</span></strong><div class="budget-note">资料自动保存在当前浏览器</div></div>
+      <div class="toolbar"><button class="btn green" onclick="openBudgetModal()">＋ 新增项目</button><button class="btn secondary" onclick="resetBudget()">恢复预设</button></div>
+      <div id="budgetList" class="list-card"></div>
+    </section>
+  </main>
+</div>
+
+
+<div class="floating-tools">
+  <button class="float-btn" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <button class="float-btn" title="旅行笔记" onclick="openNotesModal()">📝</button>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-target="itinerary"><span>🗓️</span><span>每日行程</span></button>
+  <button class="nav-btn" data-target="transport"><span>🚄</span><span>交通</span></button>
+  <button class="nav-btn" data-target="hotels"><span>🏨</span><span>住宿</span></button>
+  <button class="nav-btn" data-target="packing"><span>🧳</span><span>行李</span></button>
+  <button class="nav-btn" data-target="budget"><span>💰</span><span>预算</span></button>
+</nav>
+
+<div id="packModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="packModalTitle">新增行李</h3><button class="close" onclick="closeModal('packModal')">×</button></div>
+    <div class="form-field"><label>分类</label><input id="packGroup" placeholder="例如：证件与金流"></div>
+    <div class="form-field"><label>物品名称</label><input id="packName" placeholder="例如：护照"></div>
+    <div class="actions"><button class="btn primary" onclick="savePackingItem()">保存</button><button class="btn secondary" onclick="closeModal('packModal')">取消</button></div>
+  </div>
+</div>
+
+<div id="budgetModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="budgetModalTitle">新增预算项目</h3><button class="close" onclick="closeModal('budgetModal')">×</button></div>
+    <div class="form-field"><label>项目名称</label><input id="budgetName" placeholder="例如：住宿"></div>
+    <div class="form-field"><label>说明</label><input id="budgetNote" placeholder="例如：四晚住宿"></div>
+    <div class="form-field"><label>金额（人民币）</label><input id="budgetAmount" type="number" min="0" inputmode="decimal" placeholder="0"></div>
+    <div class="actions"><button class="btn primary" onclick="saveBudgetItem()">保存</button><button class="btn secondary" onclick="closeModal('budgetModal')">取消</button></div>
+  </div>
+</div>
+
+
+<div id="notesModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>旅行笔记</h3><button class="close" onclick="closeModal('notesModal')">×</button></div>
+    <textarea id="tripNotes" class="note-area" placeholder="记录订位号码、想吃的餐厅、购物清单或当天备忘…"></textarea>
+    <div class="actions">
+      <button class="btn primary" onclick="saveNotes()">保存笔记</button>
+      <button class="btn secondary" onclick="closeModal('notesModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div id="toolModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>实用工具</h3><button class="close" onclick="closeModal('toolModal')">×</button></div>
+    <div class="tool-grid">
+      <div class="tool-card"><b>中国报警</b><span>110</span></div>
+      <div class="tool-card"><b>医疗急救</b><span>120</span></div>
+      <div class="tool-card"><b>消防</b><span>119</span></div>
+      <div class="tool-card"><b>交通事故</b><span>122</span></div>
+    </div>
+    <div class="list-card" style="margin-top:14px">
+      <h3>人民币／新台币换算</h3>
+      <p style="margin:0;color:var(--muted);font-size:13px">汇率可自行修改，方便离线估算。</p>
+      <div class="converter">
+        <input id="cnyInput" type="number" inputmode="decimal" placeholder="人民币" oninput="convertCurrency('cny')">
+        <span class="swap">⇄</span>
+        <input id="twdInput" type="number" inputmode="decimal" placeholder="新台币" oninput="convertCurrency('twd')">
+      </div>
+      <div class="form-field" style="margin-top:12px"><label>1 人民币 = 几新台币</label><input id="fxRate" type="number" step="0.01" value="4.50" oninput="saveFxRate()"></div>
+    </div>
+    <div class="notice">这个单一 HTML 可直接放上 GitHub Pages。真正的完整离线 PWA 通常还需要额外的 manifest 与 service worker 文件。</div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.nav-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  document.querySelectorAll('.day-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.day-tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.day-panel').forEach(x=>x.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`[data-panel="${tab.dataset.day}"]`).classList.add('active');
+    });
+  });
+
+  const defaultPacking = [
+    {id:'p1',group:'证件与金流',name:'护照／台胞证',done:false},
+    {id:'p2',group:'证件与金流',name:'机票／高铁订单',done:false},
+    {id:'p3',group:'证件与金流',name:'住宿确认单',done:false},
+    {id:'p4',group:'电子用品',name:'手机与充电线',done:false},
+    {id:'p5',group:'电子用品',name:'行动电源',done:false},
+    {id:'p6',group:'衣物',name:'舒适防滑鞋',done:false},
+    {id:'p7',group:'衣物',name:'薄外套',done:false},
+    {id:'p8',group:'旅行用品',name:'折叠伞',done:false},
+    {id:'p9',group:'旅行用品',name:'个人药品',done:false}
+  ];
+  let packing = JSON.parse(localStorage.getItem('jiangnanPackingEditable') || 'null') || defaultPacking;
+  let editingPackId = null;
+
+  function savePacking(){localStorage.setItem('jiangnanPackingEditable',JSON.stringify(packing))}
+  function renderPacking(){
+    const root=document.getElementById('packingList'); root.innerHTML='';
+    const groups={};
+    packing.forEach(x=>(groups[x.group]??=[]).push(x));
+    Object.entries(groups).forEach(([group,items])=>{
+      const wrap=document.createElement('div'); wrap.className='packing-group';
+      wrap.innerHTML=`<div class="group-title"><h3>${escapeHtml(group)}</h3></div>`;
+      items.forEach(item=>{
+        const row=document.createElement('div');
+        row.className='check-item'+(item.done?' done':'');
+        row.innerHTML=`<input type="checkbox" ${item.done?'checked':''}><span class="item-name">${escapeHtml(item.name)}</span><button class="row-edit">✏️</button><button class="row-edit">🗑️</button>`;
+        row.children[0].onchange=e=>{item.done=e.target.checked;savePacking();renderPacking()};
+        row.children[2].onclick=()=>openPackModal(item.id);
+        row.children[3].onclick=()=>{if(confirm('删除这个行李项目？')){packing=packing.filter(x=>x.id!==item.id);savePacking();renderPacking()}};
+        wrap.appendChild(row);
+      });
+      root.appendChild(wrap);
+    });
+    const done=packing.filter(x=>x.done).length;
+    document.getElementById('progressText').textContent=`${done} / ${packing.length}`;
+    document.getElementById('progressBar').style.width=packing.length?`${done/packing.length*100}%`:'0%';
+  }
+  function openPackModal(id=null){
+    editingPackId=id;
+    const item=packing.find(x=>x.id===id);
+    document.getElementById('packModalTitle').textContent=item?'修改行李':'新增行李';
+    document.getElementById('packGroup').value=item?.group||'';
+    document.getElementById('packName').value=item?.name||'';
+    document.getElementById('packModal').classList.add('show');
+  }
+  function savePackingItem(){
+    const group=document.getElementById('packGroup').value.trim();
+    const name=document.getElementById('packName').value.trim();
+    if(!group||!name){alert('请填写分类和物品名称');return}
+    if(editingPackId){
+      const item=packing.find(x=>x.id===editingPackId); item.group=group; item.name=name;
+    }else packing.push({id:'p'+Date.now(),group,name,done:false});
+    savePacking();renderPacking();closeModal('packModal');
+  }
+  function resetPackingChecks(){packing.forEach(x=>x.done=false);savePacking();renderPacking()}
+
+  const defaultBudget=[
+    {id:'b1',name:'住宿',note:'四晚住宿',amount:1800,spent:0},
+    {id:'b2',name:'高铁与市内交通',note:'跨城高铁＋地铁＋叫车',amount:650,spent:0},
+    {id:'b3',name:'餐饮',note:'每日正餐、饮料与小吃',amount:1250,spent:0},
+    {id:'b4',name:'门票与演出',note:'园林、景区、Livehouse',amount:650},
+    {id:'b5',name:'购物与备用金',note:'伴手礼与弹性预算',amount:450,spent:0}
+  ];
+  let budget=JSON.parse(localStorage.getItem('jiangnanBudgetEditable')||'null')||defaultBudget;
+  let editingBudgetId=null;
+  function saveBudget(){localStorage.setItem('jiangnanBudgetEditable',JSON.stringify(budget))}
+  function renderBudget(){
+    const root=document.getElementById('budgetList');root.innerHTML='';
+    budget.forEach(item=>{
+      if(item.spent===undefined)item.spent=0;
+      const remain=Number(item.amount||0)-Number(item.spent||0);
+      const row=document.createElement('div');row.className='budget-item';
+      row.innerHTML=`<div class="icon">💴</div>
+        <div><div class="budget-name">${escapeHtml(item.name)}</div><div class="budget-sub">${escapeHtml(item.note||'')}</div></div>
+        <div class="budget-amount">预算 ¥${Number(item.amount||0).toLocaleString()}</div>
+        <div style="grid-column:2/4;display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <label style="font-size:12px;color:var(--muted)">已花费 <input class="spent-input" type="number" min="0" value="${Number(item.spent||0)}"></label>
+          <b class="${remain>=0?'remaining-positive':'remaining-negative'}">剩余 ¥${remain.toLocaleString()}</b>
+        </div>
+        <div class="budget-actions"><button class="row-edit">✏️ 修改</button><button class="row-edit">🗑️ 删除</button></div>`;
+      row.querySelector('.spent-input').oninput=e=>{item.spent=Number(e.target.value||0);saveBudget();renderBudget()};
+      row.querySelectorAll('button')[0].onclick=()=>openBudgetModal(item.id);
+      row.querySelectorAll('button')[1].onclick=()=>{if(confirm('删除这个预算项目？')){budget=budget.filter(x=>x.id!==item.id);saveBudget();renderBudget()}};
+      root.appendChild(row);
+    });
+    const total=budget.reduce((s,x)=>s+Number(x.amount||0),0);
+    const spent=budget.reduce((s,x)=>s+Number(x.spent||0),0);
+    document.getElementById('budgetTotal').textContent=total.toLocaleString('zh-CN',{maximumFractionDigits:2})+'｜已花 ¥'+spent.toLocaleString('zh-CN',{maximumFractionDigits:2});
+  }
+  function openBudgetModal(id=null){
+    editingBudgetId=id;
+    const item=budget.find(x=>x.id===id);
+    document.getElementById('budgetModalTitle').textContent=item?'修改预算项目':'新增预算项目';
+    document.getElementById('budgetName').value=item?.name||'';
+    document.getElementById('budgetNote').value=item?.note||'';
+    document.getElementById('budgetAmount').value=item?.amount??'';
+    document.getElementById('budgetModal').classList.add('show');
+  }
+  function saveBudgetItem(){
+    const name=document.getElementById('budgetName').value.trim();
+    const note=document.getElementById('budgetNote').value.trim();
+    const amount=Number(document.getElementById('budgetAmount').value||0);
+    if(!name){alert('请填写项目名称');return}
+    if(editingBudgetId){
+      const item=budget.find(x=>x.id===editingBudgetId);item.name=name;item.note=note;item.amount=amount;if(item.spent===undefined)item.spent=0;
+    }else budget.push({id:'b'+Date.now(),name,note,amount,spent:0});
+    saveBudget();renderBudget();closeModal('budgetModal');
+  }
+  function resetBudget(){
+    if(confirm('恢复预设预算？目前自定义项目会被覆盖。')){
+      budget=JSON.parse(JSON.stringify(defaultBudget));saveBudget();renderBudget()
+    }
+  }
+  function closeModal(id){document.getElementById(id).classList.remove('show')}
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+
+  const nextStops=[
+    {name:'上海浦东国际机场',city:'上海',keyword:'上海浦东国际机场',info:'12:05 抵达，办理入境、取行李与手机卡。'},
+    {name:'南京路步行街',city:'上海',keyword:'南京路步行街',info:'第一天下午逛街与小吃。'},
+    {name:'上海外滩',city:'上海',keyword:'上海外滩',info:'17:00–18:30 欣赏傍晚与夜景。'},
+    {name:'东方明珠',city:'上海',keyword:'东方明珠广播电视塔',info:'20:30–22:00 陆家嘴夜景。'},
+    {name:'拙政园',city:'苏州',keyword:'拙政园',info:'第二天 10:30–12:00。'},
+    {name:'狮子林',city:'苏州',keyword:'狮子林',info:'第二天 13:30–14:30。'},
+    {name:'平江路',city:'苏州',keyword:'平江路历史街区',info:'第二天 15:00–17:00。'},
+    {name:'七里山塘',city:'苏州',keyword:'七里山塘景区',info:'第二天 19:00–20:30。'},
+    {name:'西湖',city:'杭州',keyword:'西湖风景名胜区',info:'第三天 13:00–16:30。'},
+    {name:'雷峰塔',city:'杭州',keyword:'雷峰塔景区',info:'第三天 16:30–17:20。'},
+    {name:'河坊街',city:'杭州',keyword:'河坊街',info:'第三天 18:00–20:00。'},
+    {name:'灵隐寺',city:'杭州',keyword:'灵隐寺',info:'第四天 09:30–11:30。'},
+    {name:'小河直街',city:'杭州',keyword:'小河直街历史文化街区',info:'第四天 13:30–15:30。'},
+    {name:'豫园',city:'上海',keyword:'豫园',info:'第四天 18:00–20:00。'},
+    {name:'武康路',city:'上海',keyword:'武康路历史文化名街',info:'第五天 09:30–11:30。'},
+    {name:'田子坊',city:'上海',keyword:'田子坊',info:'第五天 12:00–13:30。'},
+    {name:'上海新天地',city:'上海',keyword:'上海新天地',info:'第五天 14:00–16:00。'},
+    {name:'上海浦东国际机场',city:'上海',keyword:'上海浦东国际机场',info:'第五天最晚 16:00 出发前往机场。'}
+  ];
+  let nextIndex=Number(localStorage.getItem('nextStopIndex')||0);
+  function updateNextStop(){
+    const s=nextStops[nextIndex%nextStops.length];
+    document.getElementById('nextStopName').textContent=s.name;
+    document.getElementById('nextStopInfo').textContent=s.info+'　点「下一站」可切换。';
+  }
+  function showNextStop(){nextIndex=(nextIndex+1)%nextStops.length;localStorage.setItem('nextStopIndex',nextIndex);updateNextStop()}
+  function navigateNext(){
+    const s=nextStops[nextIndex%nextStops.length];
+    window.open(`https://uri.amap.com/search?keyword=${encodeURIComponent(s.keyword)}&city=${encodeURIComponent(s.city)}&src=jiangnanapp`,'_blank');
+  }
+  function updateCountdown(){
+    const now=new Date();
+    let trip=new Date(now.getFullYear(),10,13,0,0,0);
+    if(now>new Date(now.getFullYear(),10,17,23,59,59))trip=new Date(now.getFullYear()+1,10,13,0,0,0);
+    const days=Math.ceil((trip-now)/86400000);
+    document.getElementById('countdownDays').textContent=days>0?days+' 天':'旅行中';
+    document.getElementById('tripStatus').textContent=days>0?'距离 11 月 13 日出发':'旅程进行中，祝一路顺利！';
+  }
+  function openNotesModal(){document.getElementById('tripNotes').value=localStorage.getItem('jiangnanNotes')||'';document.getElementById('notesModal').classList.add('show')}
+  function saveNotes(){localStorage.setItem('jiangnanNotes',document.getElementById('tripNotes').value);closeModal('notesModal')}
+  function openToolModal(){document.getElementById('toolModal').classList.add('show')}
+  function toggleDark(){document.body.classList.toggle('dark');localStorage.setItem('jiangnanDark',document.body.classList.contains('dark')?'1':'0')}
+  async function shareTrip(){
+    const data={title:document.title,text:'上海・苏州・杭州五天四夜行程',url:location.href};
+    try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('网址已复制')}}catch(e){}
+  }
+  function saveFxRate(){localStorage.setItem('jiangnanFx',document.getElementById('fxRate').value);convertCurrency('cny')}
+  function convertCurrency(from){
+    const rate=Number(document.getElementById('fxRate').value||4.5);
+    const cny=document.getElementById('cnyInput'),twd=document.getElementById('twdInput');
+    if(from==='cny')twd.value=cny.value?(Number(cny.value)*rate).toFixed(0):'';
+    else cny.value=twd.value?(Number(twd.value)/rate).toFixed(2):'';
+  }
+  if(localStorage.getItem('jiangnanDark')==='1')document.body.classList.add('dark');
+  document.getElementById('fxRate').value=localStorage.getItem('jiangnanFx')||'4.50';
+  updateNextStop();updateCountdown();
+
+  renderPacking();renderBudget();
+</script>
+</body>
+</html>
