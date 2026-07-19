@@ -1681,3 +1681,459 @@ Google Map
   </div>
 
 </section>
+<!-- =========================
+     行李清單頁面
+========================= -->
+<section id="page-packing" class="page">
+  <div class="page-header">
+    <div>
+      <p class="page-eyebrow">PACKING LIST</p >
+      <h1>行李清單</h1>
+      <p class="page-description">
+        勾選狀態會自動儲存在手機中，下次開啟仍會保留。
+      </p >
+    </div>
+  </div>
+
+  <!-- 行李進度 -->
+  <div class="packing-progress-card">
+    <div class="packing-progress-top">
+      <div>
+        <span class="packing-progress-label">準備進度</span>
+        <strong id="packing-progress-text">0 / 0</strong>
+      </div>
+
+      <button
+        type="button"
+        class="packing-reset-button"
+        onclick="resetPackingList()"
+      >
+        全部取消
+      </button>
+    </div>
+
+    <div class="packing-progress-track">
+      <div
+        id="packing-progress-bar"
+        class="packing-progress-bar"
+        style="width: 0%"
+      ></div>
+    </div>
+  </div>
+
+  <!-- 證件與重要物品 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">🪪</span>
+      <div>
+        <h2>證件與重要物品</h2>
+        <p>出發前務必再次確認</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="passport">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>護照</strong>
+          <small>確認有效期限至少還有 6 個月</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="flight-ticket">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>機票／電子登機證</strong>
+          <small>建議先截圖保存在手機</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="hotel-booking">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>住宿訂房資料</strong>
+          <small>保存飯店地址與訂單編號</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="insurance">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>旅遊保險資料</strong>
+          <small>包含保單與緊急聯絡方式</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="cash">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>現金</strong>
+          <small>建議分開放置，不要集中在同一處</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="credit-card">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>信用卡／提款卡</strong>
+          <small>確認海外交易功能已開啟</small>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 電子用品 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">🔌</span>
+      <div>
+        <h2>電子用品</h2>
+        <p>充電與拍照裝備</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="phone">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>手機</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="phone-charger">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>手機充電器與充電線</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="power-bank">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>行動電源</strong>
+          <small>請放隨身行李，不可託運</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="adapter">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>轉接插頭</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="earphones">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>耳機</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="camera">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>相機／記憶卡</strong>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 衣物 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">👕</span>
+      <div>
+        <h2>衣物</h2>
+        <p>依照旅遊天數調整數量</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="tops">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>上衣</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="pants">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>褲子／裙子</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="underwear">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>內衣褲</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="socks">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>襪子</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="sleepwear">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>睡衣</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="jacket">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>薄外套</strong>
+          <small>飛機與室內冷氣較強時可使用</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="shoes">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>舒適好走的鞋子</strong>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 盥洗與保養 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">🧴</span>
+      <div>
+        <h2>盥洗與保養</h2>
+        <p>液體用品注意容量限制</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="toothbrush">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>牙刷／牙膏</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="face-wash">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>洗面乳</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="skincare">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>保養品</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="sunscreen">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>防曬用品</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="cosmetics">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>化妝品／卸妝用品</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="towel">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>毛巾</strong>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 藥品與健康 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">💊</span>
+      <div>
+        <h2>藥品與健康</h2>
+        <p>個人常備藥請隨身攜帶</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="personal-medicine">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>個人處方藥</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="painkiller">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>止痛藥</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="stomach-medicine">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>腸胃藥</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="motion-sickness">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>暈車／暈船藥</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="bandage">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>OK 繃</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="mask">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>口罩</strong>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 其他用品 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">🎒</span>
+      <div>
+        <h2>其他用品</h2>
+        <p>旅途中可能會使用的物品</p >
+      </div>
+    </div>
+
+    <div class="packing-list">
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="umbrella">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>摺疊傘</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="water-bottle">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>水壺</strong>
+          <small>通過安檢後再裝水</small>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="tissue">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>衛生紙／濕紙巾</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="shopping-bag">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>環保購物袋</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="laundry-bag">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>髒衣袋／塑膠袋</strong>
+        </span>
+      </label>
+
+      <label class="packing-item">
+        <input type="checkbox" data-packing-id="travel-pillow">
+        <span class="packing-checkbox"></span>
+        <span class="packing-item-content">
+          <strong>頸枕／眼罩</strong>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 自訂清單 -->
+  <div class="packing-category">
+    <div class="packing-category-title">
+      <span class="packing-category-icon">✏️</span>
+      <div>
+        <h2>我的自訂清單</h2>
+        <p>新增自己需要攜帶的物品</p >
+      </div>
+    </div>
+
+    <div class="packing-add-box">
+      <input
+        id="packing-custom-input"
+        type="text"
+        maxlength="40"
+        placeholder="例如：隱形眼鏡、泳衣……"
+        autocomplete="off"
+      >
+
+      <button
+        type="button"
+        class="packing-add-button"
+        onclick="addCustomPackingItem()"
+      >
+        新增
+      </button>
+    </div>
+
+    <div id="packing-custom-list" class="packing-list"></div>
+  </div>
+
+  <div class="packing-bottom-space"></div>
+</section>
