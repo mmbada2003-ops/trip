@@ -1,768 +1,1683 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>上海五天四夜旅行 App</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+上海・蘇州・杭州 五天四夜
+</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
+font-family:'Noto Sans TC',sans-serif;
 }
 
 body{
-margin:0;
-font-family:"Microsoft JhengHei",Arial;
-background:#fff7ed;
-color:#333;
+
+background:#f5f7fb;
+color:#222;
+padding-bottom:90px;
+
 }
 
+header{
 
-.hero{
-
-height:300px;
-background:
-linear-gradient(
-rgba(0,0,0,.35),
-rgba(0,0,0,.45)
-),
-url("https://images.unsplash.com/photo-1548919973-5cef591cdbc9");
-
-background-size:cover;
-background-position:center;
+background:linear-gradient(135deg,#0b4ea2,#1e88e5);
 
 color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
+
+padding:30px 20px;
+
+border-radius:0 0 30px 30px;
+
+box-shadow:0 10px 20px rgba(0,0,0,.15);
 
 }
 
+header h1{
 
-.hero h1{
+font-size:28px;
 
-font-size:38px;
-margin:10px;
+margin-bottom:8px;
 
 }
 
+header p{
 
-.hero p{
+opacity:.9;
+
+}
+
+.section{
+
+display:none;
+
+padding:18px;
+
+animation:fade .4s;
+
+}
+
+.section.active{
+
+display:block;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
+
+}
+
+.dayCard{
+
+background:white;
+
+border-radius:18px;
+
+padding:18px;
+
+margin-bottom:18px;
+
+box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.dayTitle{
+
+font-size:22px;
+
+font-weight:bold;
+
+color:#0b4ea2;
+
+margin-bottom:10px;
+
+}
+
+.time{
+
+font-weight:bold;
+
+color:#ff5722;
+
+margin-bottom:5px;
+
+}
+
+.place{
 
 font-size:18px;
 
-}
-
-
-.container{
-
-padding:20px;
+margin-bottom:6px;
 
 }
 
+.note{
 
+color:#666;
+
+margin-bottom:12px;
+
+}
+
+.mapBtn{
+
+display:inline-block;
+
+padding:10px 16px;
+
+background:#34A853;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:10px;
+
+font-size:15px;
+
+}
+
+.mapBtn:hover{
+
+background:#2d8c47;
+
+}
+
+.bottom{
+
+position:fixed;
+
+left:0;
+
+right:0;
+
+bottom:0;
+
+height:70px;
+
+background:white;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+box-shadow:0 -5px 15px rgba(0,0,0,.1);
+
+z-index:999;
+
+}
+
+.bottom button{
+
+border:none;
+
+background:none;
+
+font-size:14px;
+
+cursor:pointer;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:4px;
+
+color:#666;
+
+}
+
+.bottom button.active{
+
+color:#1976d2;
+
+font-weight:bold;
+
+}
 
 .card{
 
 background:white;
-border-radius:22px;
-padding:20px;
-margin-bottom:20px;
 
-box-shadow:
-0 8px 20px rgba(0,0,0,.08);
+padding:18px;
 
-}
+border-radius:18px;
 
+margin-bottom:15px;
 
-
-.title{
-
-color:#c0392b;
-font-size:24px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 
 }
-
-
-
-.time{
-
-background:#ffeaa7;
-padding:8px 14px;
-border-radius:20px;
-display:inline-block;
-margin:5px;
-
-}
-
-
-.place{
-
-padding:12px;
-background:#fafafa;
-border-radius:12px;
-margin:10px 0;
-
-}
-
 
 .check{
 
-font-size:18px;
+display:flex;
+
+align-items:center;
+
+margin:12px 0;
+
+font-size:17px;
 
 }
 
+.check input{
 
+margin-right:12px;
 
-.progress{
-
-background:#eee;
-height:12px;
-border-radius:20px;
+transform:scale(1.4);
 
 }
 
+input.money{
 
-.progress div{
+width:100%;
 
-width:40%;
-height:100%;
-background:#e17055;
-border-radius:20px;
+padding:12px;
 
-}
+border-radius:10px;
 
+border:1px solid #ddd;
 
+margin-top:8px;
 
-footer{
-
-text-align:center;
-padding:30px;
-color:#888;
+margin-bottom:15px;
 
 }
 
+.total{
 
+font-size:22px;
+
+font-weight:bold;
+
+color:#e53935;
+
+margin-top:15px;
+
+}
 
 </style>
 
-
 </head>
-
 
 <body>
 
+<header>
 
-<div class="hero">
+<h1>🇨🇳 上海・蘇州・杭州</h1>
 
-<h1>🏮 上海五天四夜</h1>
+<p>五天四夜自由行</p >
 
-<p>上海・苏州・乌镇・杭州</p >
+</header>
 
-<p>情侣慢旅行攻略 ❤️</p >
+<!-- 每日行程 -->
 
+<section id="trip" class="section active">
+  <!-- Day 1 -->
+
+<div class="dayCard">
+
+<div class="dayTitle">
+🌆 Day 1｜11/13（上海）
 </div>
-
-
-
-<div class="container">
-
-
-<div class="card">
-
-<h2 class="title">
-✈️ 旅行倒数
-</h2>
-
-<p>
-距离出发：
-<b>待填写日期</b>
-</p >
-
-
-<div class="progress">
-<div></div>
-</div>
-
-</div>
-
-
-
-<div class="card">
-
-<h2 class="title">
-📍 Day 1 上海抵达
-</h2>
-
 
 <div class="time">
-14:00 入住酒店
+12:05
 </div>
-
 
 <div class="place">
+✈️ 抵達上海浦東機場
+</div>
 
-🏨 上海住宿区域<br>
+<div class="note">
+辦手機卡（59元芒果卡套餐）
+</div>
 
-推荐：
-南京东路 / 人民广场 / 静安寺
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=Shanghai+Pudong+International+Airport">
+🗺️ Google Map
+</a >
 
 </div>
 
 
+<div class="dayCard">
 
 <div class="time">
-17:00 南京东路
+14:00
 </div>
-
 
 <div class="place">
+🚇 前往南京路
+</div>
 
-📸 拍照：
-南京东路步行街
+<div class="note">
+建議搭乘地鐵2號線
+</div>
 
-🚇 地铁：
-2号线 南京东路站
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=南京路步行街">
+導航
+</a >
 
 </div>
 
 
+<div class="dayCard">
 
 <div class="time">
-
-19:00 外滩夜景
-
+14:30－16:30
 </div>
-
 
 <div class="place">
-
-🌃 必拍：
-东方明珠、陆家嘴灯光
-
+🛍️ 南京路步行街
 </div>
 
+<div class="note">
 
-</div>
+逛街・小吃推薦
 
+<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
 
+<li>小楊生煎</li>
 
+<li>鮮得來排骨年糕</li>
 
+<li>沈大成糕點</li>
 
-<div class="card">
-
-
-<h2 class="title">
-
-📍 Day 2 上海漫游
-
-</h2>
-
-
-<div class="time">
-09:30 武康路
-</div>
-
-
-<div class="place">
-
-📸 武康大楼<br>
-
-☕ 安福路咖啡
-
-</div>
-
-
-
-<div class="time">
-14:00 淮海中路
-
-</div>
-
-
-<div class="place">
-
-🛍️ 逛街<br>
-
-新天地拍照
-
-</div>
-
-
-
-
-<div class="time">
-20:00 陆家嘴
-
-</div>
-
-
-<div class="place">
-
-🌉 夜景路线：
-
-东方明珠 → 滨江大道
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2 class="title">
-
-📍 Day 3 苏州
-
-</h2>
-
-
-
-<div class="time">
-
-08:00 上海虹桥出发
-
-</div>
-
-
-<div class="place">
-
-🚄 高铁：
-
-上海虹桥 → 苏州
-
-约30分钟
-
-</div>
-
-
-
-
-<div class="time">
-
-10:00 拙政园
-
-</div>
-
-
-<div class="place">
-
-🌿 江南园林
-
-推荐停留：
-1.5小时
-
-</div>
-
-
-
-
-<div class="time">
-
-14:00 平江路
-
-</div>
-
-
-<div class="place">
-
-🍵 古街散步
-
-推荐：
-拍照、喝茶
-
-</div>
-
-
-
-
-<div class="time">
-
-19:00 山塘街
-
-</div>
-
-
-<div class="place">
-
-🌙 夜景必看
-
-</div>
-
-
-</div>
-<!-- Day 4 -->
-
-<div class="card">
-
-<h2 class="title">
-📍 Day 4 乌镇水乡
-</h2>
-
-
-<div class="time">
-08:00 前往乌镇
-</div>
-
-
-<div class="place">
-
-🚌 上海 → 乌镇
-
-建议：
-高铁 + 接驳车
-
-</div>
-
-
-
-<div class="time">
-13:00 西栅景区
-</div>
-
-
-<div class="place">
-
-🏮 江南水乡
-
-必拍：
-木桥、河道、白墙黑瓦
-
-</div>
-
-
-
-<div class="time">
-18:00 乌镇夜景
-</div>
-
-
-<div class="place">
-
-🌙 推荐路线：
-
-水上集市 → 桥里桥 → 酒吧街
-
-</div>
-
-
-</div>
-
-
-
-
-<!-- Day 5 -->
-
-<div class="card">
-
-<h2 class="title">
-📍 Day 5 杭州西湖
-</h2>
-
-
-<div class="time">
-09:00 前往杭州
-</div>
-
-
-<div class="place">
-
-🚄 乌镇 → 杭州
-
-约1小时
-
-</div>
-
-
-
-<div class="time">
-11:00 西湖
-
-</div>
-
-
-<div class="place">
-
-🍃 推荐路线：
-
-断桥
-↓
-白堤
-↓
-孤山
-↓
-湖滨
-
-</div>
-
-
-
-<div class="time">
-
-16:00 河坊街
-
-</div>
-
-
-<div class="place">
-
-🍜 美食：
-葱包桧
-定胜糕
-杭州小吃
-
-</div>
-
-
-
-<div class="time">
-
-晚上返回上海
-
-</div>
-
-
-<div class="place">
-
-✈️ 上海机场返程
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- 美食 -->
-
-<div class="card">
-
-
-<h2 class="title">
-🍜 上海美食地图
-</h2>
-
-
-<div class="place">
-
-🥟 生煎包
-
-推荐时间：
-早餐
-
-</div>
-
-
-<div class="place">
-
-🥢 小笼包
-
-推荐：
-南翔小笼
-
-</div>
-
-
-<div class="place">
-
-🍜 蟹黄面
-
-适合：
-晚餐
-
-</div>
-
-
-<div class="place">
-
-🍵 桂花糕
-
-适合：
-下午茶
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- 预算 -->
-
-<div class="card">
-
-
-<h2 class="title">
-
-💰 旅行预算记录
-
-</h2>
-
-
-<div class="place">
-
-🏨 住宿：
-<input placeholder="金额">
-
-</div>
-
-
-<div class="place">
-
-🚄 交通：
-<input placeholder="金额">
-
-</div>
-
-
-<div class="place">
-
-🍜 餐饮：
-<input placeholder="金额">
-
-</div>
-
-
-<div class="place">
-
-🛍️ 购物：
-<input placeholder="金额">
-
-</div>
-
-
-<div class="place">
-
-💰 总预算：
-<input placeholder="金额">
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- 行李 -->
-
-<div class="card">
-
-
-<h2 class="title">
-
-🧳 行李清单
-
-</h2>
-
-
-<label class="check">
-<input type="checkbox">
-护照 / 身份证件
-</label>
-<br><br>
-
-
-<label class="check">
-<input type="checkbox">
-手机 / 充电器
-</label>
-<br><br>
-
-
-<label class="check">
-<input type="checkbox">
-行动电源
-</label>
-<br><br>
-
-
-<label class="check">
-<input type="checkbox">
-外套 / 雨具
-</label>
-<br><br>
-
-
-<label class="check">
-<input type="checkbox">
-相机
-</label>
-<br><br>
-
-
-<label class="check">
-<input type="checkbox">
-常用药品
-</label>
-
-
-</div>
-
-
-
-
-<!-- 小提醒 -->
-
-
-<div class="card">
-
-
-<h2 class="title">
-
-💡 旅行小提醒
-
-</h2>
-
-
-<ul>
-
-<li>11月上海早晚温差大，带薄外套</li>
-
-<li>地铁扫码建议提前绑定支付</li>
-
-<li>热门景点建议早一点到</li>
-
-<li>乌镇夜景不要错过</li>
+<li>萊萊小籠</li>
 
 </ul>
 
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=南京路步行街">
+Google Map
+</a >
+
+</div>
+
+
+<div class="dayCard">
+
+<div class="time">
+17:00－18:30
+</div>
+
+<div class="place">
+🌃 外灘
+</div>
+
+<div class="note">
+
+最佳拍照時間：
+黃昏～夜景
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=外灘">
+Google Map
+</a >
+
+</div>
+
+
+<div class="dayCard">
+
+<div class="time">
+18:30－20:00
+</div>
+
+<div class="place">
+🍜 晚餐
+</div>
+
+<div class="note">
+
+推薦：
+
+<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
+
+<li>南翔饅頭店</li>
+
+<li>老吉士</li>
+
+<li>上海本幫菜</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="dayCard">
+
+<div class="time">
+20:30－22:00
+</div>
+
+<div class="place">
+🌉 陸家嘴・
+<!-- Day 2 -->
+
+<div class="dayCard">
+
+<div class="dayTitle">
+🏯 Day 2｜11/14（蘇州）
+</div>
+
+<div class="time">
+09:00
+</div>
+
+<div class="place">
+🚄 上海 → 蘇州
+</div>
+
+<div class="note">
+
+建議搭乘高鐵（上海虹橋 → 蘇州站）
+
+車程約25~35分鐘
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=蘇州站">
+Google Map
+</a >
 
 </div>
 
 
 
+<div class="dayCard">
+
+<div class="time">
+10:30－12:00
+</div>
+
+<div class="place">
+🌿 拙政園
+</div>
+
+<div class="note">
+
+中國四大名園之一
+
+建議停留約1.5小時
+
+推薦拍照：
+
+✔ 荷花池
+
+✔ 小橋流水
+
+✔ 涼亭
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=拙政園">
+Google Map
+</a >
+
 </div>
 
 
 
-<footer>
+<div class="dayCard">
 
-❤️ Shanghai Trip Planner
+<div class="time">
+12:00－13:00
+</div>
 
-<br>
+<div class="place">
+🍜 午餐
+</div>
 
-Made for our journey ✈️
+<div class="note">
 
-</footer>
+推薦：
+
+<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
+
+<li>蘇式麵</li>
+
+<li>松鼠桂魚</li>
+
+<li>響油鱔糊</li>
+
+<li>桂花糖藕</li>
+
+</ul>
+
+</div>
+
+</div>
 
 
 
-</body>
+<div class="dayCard">
 
-</html>
+<div class="time">
+13:30－14:30
+</div>
+
+<div class="place">
+🦁 獅子林
+</div>
+
+<div class="note">
+
+世界文化遺產
+
+特色：
+
+太湖石假山迷宮
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=獅子林">
+Google Map
+</a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+<div class="time">
+15:00－17:00
+</div>
+
+<div class="place">
+☕ 平江路
+</div>
+
+<div class="note">
+
+拍照＋喝茶
+
+推薦：
+
+✔ 貓的天空之城
+
+✔ 琵琶語茶館
+
+✔ 文創小店
+
+✔ 河道散步
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=平江路">
+Google Map
+</a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+<div class="time">
+17:30－19:00
+</div>
+
+<div class="place">
+🍽️ 晚餐
+</div>
+
+<div class="note">
+
+推薦蘇州本幫菜
+
+</div>
+
+</div>
+
+
+
+<div class="dayCard">
+
+<div class="time">
+19:00－20:30
+</div>
+
+<div class="place">
+🏮 山塘街
+</div>
+
+<div class="note">
+
+夜景推薦
+
+可以搭船
+
+推薦：
+
+✔ 桂花糕
+
+✔ 海棠糕
+
+✔ 青團
+
+</div>
+
+<a class="mapBtn"
+target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=山塘街">
+Google Map
+</a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+<div class="place">
+🏨 今晚住宿
+</div>
+
+<div class="note">
+
+平江路附近
+
+方便隔天前往杭州
+
+</div>
+
+</div>
+<!-- ========================= -->
+<!-- Day 3 杭州 -->
+<!-- ========================= -->
+
+<div class="dayCard">
+
+  <div class="dayTitle">
+    🌿 Day 3｜11/15（杭州）
+  </div>
+
+  <div class="time">
+    09:00
+  </div>
+
+  <div class="place">
+    🚄 前往杭州
+  </div>
+
+  <div class="note">
+    建議搭乘高鐵<br>
+    蘇州站 ➜ 杭州東站<br>
+    車程約 1.5 小時
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href=" ">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    11:00－12:30
+  </div>
+
+  <div class="place">
+    🍜 午餐
+  </div>
+
+  <div class="note">
+    建議在西湖附近用餐
+  </div>
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    13:00－16:30
+  </div>
+
+  <div class="place">
+    🌊 西湖
+  </div>
+
+  <div class="note">
+
+    必去景點：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>📸 斷橋殘雪</li>
+      <li>🌸 曲院風荷</li>
+      <li>🌳 蘇堤</li>
+      <li>🚤 湖畔散步</li>
+    </ul>
+
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href="https://www.google.com/maps/search/?api=1&query=杭州西湖">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    16:30－17:20
+  </div>
+
+  <div class="place">
+    🗼 雷峰塔
+  </div>
+
+  <div class="note">
+    欣賞西湖全景<br>
+    建議登塔拍照
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href="https://www.google.com/maps/search/?api=1&query=雷峰塔">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    17:20－18:00
+  </div>
+
+  <div class="place">
+    ☕ MERRY WANNA BE
+  </div>
+
+  <div class="note">
+    上城區人氣咖啡店
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href="https://www.google.com/maps/search/?api=1&query=MERRY+WANNA+BE+杭州">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    18:00－20:00
+  </div>
+
+  <div class="place">
+    🏮 河坊街・南宋御街・鼓樓
+  </div>
+
+  <div class="note">
+
+    美食推薦：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>🍢 定勝糕</li>
+      <li>🥟 小籠包</li>
+      <li>🥮 蔥包燴</li>
+      <li>🧋 茶飲</li>
+    </ul>
+
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href="https://www.google.com/maps/search/?api=1&query=河坊街">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="time">
+    20:30－22:30
+  </div>
+
+  <div class="place">
+    🎵 老船長 Livehouse
+  </div>
+
+  <div class="note">
+    晚間音樂表演
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    href="https://www.google.com/maps/search/?api=1&query=老船長+Livehouse+杭州">
+    Google Map
+  </a >
+
+</div>
+
+
+
+<div class="dayCard">
+
+  <div class="place">
+    🏨 今晚住宿
+  </div>
+
+  <div class="note">
+    湖濱銀泰附近
+  </div>
+
+</div>
+<!-- ========================= -->
+<!-- Day 4 上海 -->
+<!-- ========================= -->
+
+<div class="dayCard">
+
+  <div class="dayTitle">
+    🏙️ Day 4｜11/16（上海）
+  </div>
+
+  <div class="time">
+    09:30－11:30
+  </div>
+
+  <div class="place">
+    🛕 靈隱寺＋飛來峰
+  </div>
+
+  <div class="note">
+    杭州代表性寺院與石刻景區。<br>
+    建議提早出發，並預留步行與拍照時間。
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href=" ">
+    🗺️ Google Map
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    12:00－13:00
+  </div>
+
+  <div class="place">
+    🍜 午餐
+  </div>
+
+  <div class="note">
+    建議在靈隱寺附近用餐，再準備前往小河直街。
+  </div>
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    13:30－15:30
+  </div>
+
+  <div class="place">
+    🏘️ 小河直街＋拱宸橋
+  </div>
+
+  <div class="note">
+    運河老街散步、文創小店、古橋拍照。<br><br>
+
+    建議路線：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>小河直街歷史文化街區</li>
+      <li>沿運河散步</li>
+      <li>拱宸橋拍照</li>
+      <li>附近咖啡店稍作休息</li>
+    </ul>
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=杭州小河直街歷史文化街區">
+    🗺️ 小河直街
+  </a >
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    style="margin-left:8px;margin-top:8px;"
+    href="https://www.google.com/maps/search/?api=1&query=杭州拱宸橋">
+    🗺️ 拱宸橋
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    16:00
+  </div>
+
+  <div class="place">
+    🚄 杭州返回上海
+  </div>
+
+  <div class="note">
+    建議從杭州東站搭乘高鐵前往上海虹橋站。<br>
+    車程通常約 45－70 分鐘，實際依班次為準。<br>
+    建議至少提前 40 分鐘抵達車站。
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=杭州東站">
+    🗺️ 杭州東站
+  </a >
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    style="margin-left:8px;margin-top:8px;"
+    href="https://www.google.com/maps/search/?api=1&query=上海虹橋站">
+    🗺️ 上海虹橋站
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    18:00－20:00
+  </div>
+
+  <div class="place">
+    🏯 豫園＋城隍廟
+  </div>
+
+  <div class="note">
+    欣賞傳統建築夜景，逛商店與小吃街。<br><br>
+
+    美食建議：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>南翔小籠包</li>
+      <li>生煎包</li>
+      <li>排骨年糕</li>
+      <li>梨膏糖</li>
+      <li>桂花糕</li>
+    </ul>
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=上海豫園">
+    🗺️ 豫園
+  </a >
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    style="margin-left:8px;margin-top:8px;"
+    href="https://www.google.com/maps/search/?api=1&query=上海城隍廟">
+    🗺️ 城隍廟
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="place">
+    🏨 今晚住宿
+  </div>
+
+  <div class="note">
+    上海靜安區
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=上海靜安區">
+    🗺️ 查看區域
+  </a >
+
+</div>
+<!-- ========================= -->
+<!-- Day 5 上海 -->
+<!-- ========================= -->
+
+<div class="dayCard">
+
+  <div class="dayTitle">
+    ✈️ Day 5｜11/17（返程）
+  </div>
+
+  <div class="time">
+    09:30－11:30
+  </div>
+
+  <div class="place">
+    🌳 武康路（法式梧桐街道）
+  </div>
+
+  <div class="note">
+    上海最具代表性的法租界街道。<br>
+    建議慢慢散步拍照、咖啡店巡禮。
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href=" ">
+    🗺️ Google Map
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    12:00－13:30
+  </div>
+
+  <div class="place">
+    🎨 田子坊
+  </div>
+
+  <div class="note">
+
+    文創小店、美食與伴手禮。
+
+    <br><br>
+
+    推薦：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>上海伴手禮</li>
+      <li>特色咖啡店</li>
+      <li>手作飾品</li>
+      <li>特色甜點</li>
+    </ul>
+
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=田子坊">
+    🗺️ Google Map
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    14:00－16:00
+  </div>
+
+  <div class="place">
+    🏙️ 新天地
+  </div>
+
+  <div class="note">
+
+    最後購物與下午茶。
+
+    <br><br>
+
+    推薦：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>星巴克臻選</li>
+      <li>Shake Shack</li>
+      <li>精品商店</li>
+      <li>石庫門建築拍照</li>
+    </ul>
+
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=上海新天地">
+    🗺️ Google Map
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    約16:00
+  </div>
+
+  <div class="place">
+    🚇 前往浦東國際機場
+  </div>
+
+  <div class="note">
+
+    建議至少提前三小時抵達。
+
+    <br>
+
+    可搭乘：
+
+    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+      <li>🚇 地鐵2號線</li>
+      <li>🚄 磁浮列車</li>
+      <li>🚖 滴滴／計程車</li>
+    </ul>
+
+  </div>
+
+  <a
+    class="mapBtn"
+    target="_blank"
+    rel="noopener"
+    href="https://www.google.com/maps/search/?api=1&query=上海浦東國際機場">
+    🗺️ Google Map
+  </a >
+
+</div>
+
+
+<div class="dayCard">
+
+  <div class="time">
+    20:10
+  </div>
+
+  <div class="place">
+    ✈️ 返回台北
+  </div>
+
+  <div class="note">
+
+    五天四夜旅程結束。
+
+    <br><br>
+
+    🎉 祝旅途愉快！
+
+  </div>
+
+</div>
+
+</section>
+<!-- ========================= -->
+<!-- 交通頁 -->
+<!-- ========================= -->
+
+<section id="transport" class="section">
+
+  <div class="dayCard">
+    <div class="dayTitle">
+      🚄 城市間交通
+    </div>
+
+    <div class="place">
+      上海 → 蘇州
+    </div>
+
+    <div class="note">
+      建議搭乘高鐵。<br>
+      出發站：上海虹橋站<br>
+      抵達站：蘇州站<br>
+      車程：約 25－35 分鐘<br>
+      建議提早 30－45 分鐘抵達車站。
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href=" ">
+      🗺️ 上海虹橋站
+    </a >
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      style="margin-left:8px;margin-top:8px;"
+      href="https://www.google.com/maps/search/?api=1&query=蘇州站">
+      🗺️ 蘇州站
+    </a >
+  </div>
+
+
+  <div class="dayCard">
+    <div class="place">
+      蘇州 → 杭州
+    </div>
+
+    <div class="note">
+      建議搭乘高鐵。<br>
+      出發站：蘇州站<br>
+      抵達站：杭州東站<br>
+      車程：約 1.5 小時<br>
+      熱門時段建議提前購票。
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/search/?api=1&query=蘇州站">
+      🗺️ 蘇州站
+    </a >
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      style="margin-left:8px;margin-top:8px;"
+      href="https://www.google.com/maps/search/?api=1&query=杭州東站">
+      🗺️ 杭州東站
+    </a >
+  </div>
+
+
+  <div class="dayCard">
+    <div class="place">
+      杭州 → 上海
+    </div>
+
+    <div class="note">
+      建議搭乘高鐵。<br>
+      出發站：杭州東站<br>
+      抵達站：上海虹橋站<br>
+      車程：約 45－70 分鐘<br>
+      抵達上海後可轉乘地鐵前往靜安區。
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/search/?api=1&query=杭州東站">
+      🗺️ 杭州東站
+    </a >
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      style="margin-left:8px;margin-top:8px;"
+      href="https://www.google.com/maps/search/?api=1&query=上海虹橋站">
+      🗺️ 上海虹橋站
+    </a >
+  </div>
+
+
+  <div class="dayCard">
+    <div class="dayTitle">
+      ✈️ 機場交通
+    </div>
+
+    <div class="place">
+      上海浦東國際機場 → 市區
+    </div>
+
+    <div class="note">
+      方案一：地鐵 2 號線<br>
+      價格較便宜，但車程較長。<br><br>
+
+      方案二：磁浮列車＋地鐵<br>
+      可先搭磁浮至龍陽路，再轉乘地鐵。<br><br>
+
+      方案三：滴滴／計程車<br>
+      適合多人同行或行李較多。
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/dir/?api=1&origin=上海浦東國際機場&destination=南京路步行街">
+      🧭 導航至南京路
+    </a >
+  </div>
+
+
+  <div class="dayCard">
+    <div class="place">
+      上海市區 → 浦東國際機場
+    </div>
+
+    <div class="note">
+      回程航班時間為 20:10。<br>
+      建議最晚 16:00 左右離開新天地。<br>
+      國際航班建議提前至少 3 小時抵達機場。<br>
+      若遇尖峰時段，請預留更多交通時間。
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/dir/?api=1&origin=上海新天地&destination=上海浦東國際機場">
+      🧭 導航至機場
+    </a >
+  </div>
+
+
+  <div class="dayCard">
+    <div class="dayTitle">
+      🚇 市區交通建議
+    </div>
+
+    <div class="note">
+      上海：以地鐵為主，景點間距離較遠。<br><br>
+
+      蘇州：可搭地鐵、計程車，平江路與園林區適合步行。<br><br>
+
+      杭州：西湖周邊建議步行或搭公車，跨區可使用地鐵與計程車。<br><br>
+
+      建議使用支付寶或微信支付搭乘大眾運輸。
+    </div>
+  </div>
+
+
+  <div class="dayCard">
+    <div class="dayTitle">
+      📌 搭車提醒
+    </div>
+
+    <div class="note">
+      1. 高鐵進站通常需要安檢與證件查驗。<br><br>
+      2. 請準備台胞證或可使用的旅行證件。<br><br>
+      3. 熱門班次建議提前購票。<br><br>
+      4. 上下班尖峰時段，地鐵可能十分擁擠。<br><br>
+      5. Google Maps 在中國部分地區資訊可能不完整，可搭配高德地圖或百度地圖使用。
+    </div>
+  </div>
+
+</section>
+<!-- ========================= -->
+<!-- 住宿 -->
+<!-- ========================= -->
+
+<section id="hotel" class="section">
+
+  <div class="dayCard">
+
+    <div class="dayTitle">
+      🏨 住宿資訊
+    </div>
+
+    <div class="note">
+      本次共入住三間住宿
+    </div>
+
+  </div>
+
+  <!-- 上海 -->
+
+  <div class="dayCard">
+
+    <div class="place">
+      🌆 上海（Day1）
+    </div>
+
+    <div class="note">
+
+      📍住宿區域：靜安區
+
+      <br><br>
+
+      入住日期：11/13
+
+      <br>
+
+      退房日期：11/14
+
+      <br><br>
+
+      優點：
+
+      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+        <li>南京路方便</li>
+        <li>外灘交通便利</li>
+        <li>地鐵路線多</li>
+      </ul>
+
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href=" ">
+      📍 查看地圖
+    </a >
+
+  </div>
+
+
+
+  <!-- 蘇州 -->
+
+  <div class="dayCard">
+
+    <div class="place">
+      🏯 蘇州（Day2）
+    </div>
+
+    <div class="note">
+
+      📍住宿區域：平江路附近
+
+      <br><br>
+
+      入住日期：11/14
+
+      <br>
+
+      退房日期：11/15
+
+      <br><br>
+
+      步行可到：
+
+      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+        <li>平江路</li>
+        <li>拙政園</li>
+        <li>獅子林</li>
+      </ul>
+
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/search/?api=1&query=蘇州平江路">
+      📍 查看地圖
+    </a >
+
+  </div>
+
+
+
+  <!-- 杭州 -->
+
+  <div class="dayCard">
+
+    <div class="place">
+      🌿 杭州（Day3）
+    </div>
+
+    <div class="note">
+
+      📍住宿區域：湖濱銀泰附近
+
+      <br><br>
+
+      入住日期：11/15
+
+      <br>
+
+      退房日期：11/16
+
+      <br><br>
+
+      附近景點：
+
+      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
+        <li>西湖</li>
+        <li>河坊街</li>
+        <li>南宋御街</li>
+      </ul>
+
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/search/?api=1&query=杭州湖濱銀泰">
+      📍 查看地圖
+    </a >
+
+  </div>
+
+
+
+  <!-- 上海 -->
+
+  <div class="dayCard">
+
+    <div class="place">
+      🌃 上海（Day4）
+    </div>
+
+    <div class="note">
+
+      📍住宿區域：靜安區
+
+      <br><br>
+
+      入住日期：11/16
+
+      <br>
+
+      退房日期：11/17
+
+      <br><br>
+
+      隔天方便前往浦東機場。
+
+    </div>
+
+    <a
+      class="mapBtn"
+      target="_blank"
+      rel="noopener"
+      href="https://www.google.com/maps/search/?api=1&query=上海靜安區">
+      📍 查看地圖
+    </a >
+
+  </div>
+
+
+
+  <div class="dayCard">
+
+    <div class="dayTitle">
+      📝 入住提醒
+    </div>
+
+    <div class="note">
+
+      ✔ 護照／台胞證
+
+      <br><br>
+
+      ✔ 訂房確認信
+
+      <br><br>
+
+      ✔ 飯店地址截圖
+
+      <br><br>
+
+      ✔ 飯店電話
+
+      <br><br>
+
+      ✔ Check-in 通常 15:00 後
+
+      <br><br>
+
+      ✔ Check-out 約 11:00～12:00
+
+    </div>
+
+  </div>
+
+</section>
