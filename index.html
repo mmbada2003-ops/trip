@@ -274,7 +274,7 @@
           <div class="item move"><div class="card"><div class="time">13:00–13:30｜移动</div><h4>午餐地点 → 小河直街</h4><p>建议网约车。</p><div class="tags"><span class="tag">约 25–40 分钟</span></div></div></div>
           <div class="item"><div class="card"><div class="time">13:30–15:30</div><h4>小河直街＋拱宸桥</h4><p>两地可步行或短程叫车串联。</p><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=小河直街历史文化街区&city=杭州&src=jiangnanapp">🧭 小河直街</a><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=拱宸桥&city=杭州&src=jiangnanapp">🧭 拱宸桥</a></div></div></div>
           <div class="item move"><div class="card"><div class="time">15:30–16:00｜移动</div><h4>拱宸桥 → 杭州车站</h4><p>依实际车站选择地铁或网约车。</p><div class="tags"><span class="tag">约 25–45 分钟</span></div></div></div>
-          <div class="item"><div class="card"><div class="time">16:00</div><h4>回上海</h4><p>高铁约 1 小时左右。</p></div></div>
+          <div class="item"><div class="card"><div class="time">16:00</div><h4>回上海</h4><p>高铁约 2 小时左右。</p></div></div>
           <div class="item move"><div class="card"><div class="time">约 17:15–18:00｜移动</div><h4>上海车站 → 豫园</h4><p>含出站与市区交通。</p><div class="tags"><span class="tag">约 30–45 分钟</span></div></div></div>
           <div class="item"><div class="card"><div class="time">18:00–20:00</div><h4>豫园＋城隍庙</h4><div class="actions"><a class="btn primary" target="_blank" href="https://uri.amap.com/search?keyword=豫园&city=上海&src=jiangnanapp">🧭 高德地图</a></div></div></div>
           <div class="item move"><div class="card"><div class="time">20:00 后｜移动</div><h4>豫园 → 静安区住宿</h4><p>建议地铁或网约车。</p><div class="tags"><span class="tag">约 25–40 分钟</span></div></div></div>
@@ -303,7 +303,7 @@
         <h3>跨城交通</h3>
         <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>上海 → 苏州</b><span>高铁约 25–40 分钟；建议提早 45–60 分钟进站。</span></div></div>
         <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>苏州 → 杭州</b><span>高铁约 1.5–2 小时；优先选择直达班次。</span></div></div>
-        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>杭州 → 上海</b><span>高铁约 1 小时左右；需另加市区往返车站时间。</span></div></div>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>杭州 → 上海</b><span>高铁约 2 小时左右；需另加市区往返车站时间。</span></div></div>
       </div>
       <div class="list-card">
         <h3>市区交通原则</h3>
@@ -429,11 +429,14 @@
     {id:'p2',group:'证件与金流',name:'机票／高铁订单',done:false},
     {id:'p3',group:'证件与金流',name:'住宿确认单',done:false},
     {id:'p4',group:'电子用品',name:'手机与充电线',done:false},
-    {id:'p5',group:'电子用品',name:'行动电源',done:false},
-    {id:'p6',group:'衣物',name:'舒适防滑鞋',done:false},
-    {id:'p7',group:'衣物',name:'薄外套',done:false},
+    {id:'p5',group:'电子用品',name:'充电宝',done:false},
+    {id:'p6',group:'衣物',name:'舒适步鞋',done:false},
+    {id:'p7',group:'衣物',name:'外套',done:false},
+    {id:'p8',group:'衣物',name:'五天衣物',done:false},
     {id:'p8',group:'旅行用品',name:'折叠伞',done:false},
-    {id:'p9',group:'旅行用品',name:'个人药品',done:false}
+    {id:'p10',group:'旅行用品',name:'个人药品',done:false}
+    {id:'p11',group:'旅行用品',name:'保养品',done:false}
+    {id:'p12',group:'旅行用品',name:'化妆品',done:false}
   ];
   let packing = JSON.parse(localStorage.getItem('jiangnanPackingEditable') || 'null') || defaultPacking;
   let editingPackId = null;
@@ -481,11 +484,11 @@
   function resetPackingChecks(){packing.forEach(x=>x.done=false);savePacking();renderPacking()}
 
   const defaultBudget=[
-    {id:'b1',name:'住宿',note:'四晚住宿',amount:1800,spent:0},
-    {id:'b2',name:'高铁与市内交通',note:'跨城高铁＋地铁＋叫车',amount:650,spent:0},
-    {id:'b3',name:'餐饮',note:'每日正餐、饮料与小吃',amount:1250,spent:0},
-    {id:'b4',name:'门票与演出',note:'园林、景区、Livehouse',amount:650},
-    {id:'b5',name:'购物与备用金',note:'伴手礼与弹性预算',amount:450,spent:0}
+    {id:'b1',name:'住宿',note:'四晚住宿',amount:2000,spent:0},
+    {id:'b2',name:'高铁与市内交通',note:'跨城高铁＋地铁＋叫车',amount:1000,spent:0},
+    {id:'b3',name:'餐饮',note:'每日正餐、饮料与小吃',amount:2000,spent:0},
+    {id:'b4',name:'门票与演出',note:'园林、景区、Livehouse',amount:700},
+    {id:'b5',name:'购物与备用金',note:'伴手礼与弹性预算',amount:1000,spent:0}
   ];
   let budget=JSON.parse(localStorage.getItem('jiangnanBudgetEditable')||'null')||defaultBudget;
   let editingBudgetId=null;
