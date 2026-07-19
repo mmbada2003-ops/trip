@@ -1,2139 +1,521 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-
+<html lang="zh-Hant">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-上海・蘇州・杭州 五天四夜
-</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Noto Sans TC',sans-serif;
-}
-
-body{
-
-background:#f5f7fb;
-color:#222;
-padding-bottom:90px;
-
-}
-
-header{
-
-background:linear-gradient(135deg,#0b4ea2,#1e88e5);
-
-color:white;
-
-padding:30px 20px;
-
-border-radius:0 0 30px 30px;
-
-box-shadow:0 10px 20px rgba(0,0,0,.15);
-
-}
-
-header h1{
-
-font-size:28px;
-
-margin-bottom:8px;
-
-}
-
-header p{
-
-opacity:.9;
-
-}
-
-.section{
-
-display:none;
-
-padding:18px;
-
-animation:fade .4s;
-
-}
-
-.section.active{
-
-display:block;
-
-}
-
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-transform:translateY(15px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:none;
-
-}
-
-}
-
-.dayCard{
-
-background:white;
-
-border-radius:18px;
-
-padding:18px;
-
-margin-bottom:18px;
-
-box-shadow:0 8px 18px rgba(0,0,0,.08);
-
-}
-
-.dayTitle{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#0b4ea2;
-
-margin-bottom:10px;
-
-}
-
-.time{
-
-font-weight:bold;
-
-color:#ff5722;
-
-margin-bottom:5px;
-
-}
-
-.place{
-
-font-size:18px;
-
-margin-bottom:6px;
-
-}
-
-.note{
-
-color:#666;
-
-margin-bottom:12px;
-
-}
-
-.mapBtn{
-
-display:inline-block;
-
-padding:10px 16px;
-
-background:#34A853;
-
-color:white;
-
-text-decoration:none;
-
-border-radius:10px;
-
-font-size:15px;
-
-}
-
-.mapBtn:hover{
-
-background:#2d8c47;
-
-}
-
-.bottom{
-
-position:fixed;
-
-left:0;
-
-right:0;
-
-bottom:0;
-
-height:70px;
-
-background:white;
-
-display:flex;
-
-justify-content:space-around;
-
-align-items:center;
-
-box-shadow:0 -5px 15px rgba(0,0,0,.1);
-
-z-index:999;
-
-}
-
-.bottom button{
-
-border:none;
-
-background:none;
-
-font-size:14px;
-
-cursor:pointer;
-
-display:flex;
-
-flex-direction:column;
-
-align-items:center;
-
-gap:4px;
-
-color:#666;
-
-}
-
-.bottom button.active{
-
-color:#1976d2;
-
-font-weight:bold;
-
-}
-
-.card{
-
-background:white;
-
-padding:18px;
-
-border-radius:18px;
-
-margin-bottom:15px;
-
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-
-}
-
-.check{
-
-display:flex;
-
-align-items:center;
-
-margin:12px 0;
-
-font-size:17px;
-
-}
-
-.check input{
-
-margin-right:12px;
-
-transform:scale(1.4);
-
-}
-
-input.money{
-
-width:100%;
-
-padding:12px;
-
-border-radius:10px;
-
-border:1px solid #ddd;
-
-margin-top:8px;
-
-margin-bottom:15px;
-
-}
-
-.total{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#e53935;
-
-margin-top:15px;
-
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b23a2f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="江南五日遊" />
+  <title>上海・蘇州・杭州｜五天四夜</title>
+  <style>
+    :root{
+      --bg:#f7f1e7;
+      --card:#fffdf8;
+      --text:#2c2824;
+      --muted:#746b62;
+      --primary:#b23a2f;
+      --primary-dark:#8f2c24;
+      --accent:#d7a04b;
+      --green:#557a64;
+      --line:#eadfce;
+      --shadow:0 12px 32px rgba(72,49,33,.10);
+      --radius:22px;
+      --nav-h:74px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(215,160,75,.14), transparent 28%),
+        linear-gradient(180deg,#f9f4eb 0%,#f3ebdf 100%);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      padding-bottom:calc(var(--nav-h) + 26px + env(safe-area-inset-bottom));
+    }
+    button,a{font:inherit}
+    a{text-decoration:none;color:inherit}
+    .app{max-width:760px;margin:0 auto}
+    .hero{
+      position:relative;
+      min-height:310px;
+      padding:calc(30px + env(safe-area-inset-top)) 22px 28px;
+      color:white;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg,rgba(45,26,21,.10),rgba(45,26,21,.72)),
+        url('https://images.unsplash.com/photo-1538428494232-9c0d8a3ab403?auto=format&fit=crop&w=1600&q=80') center/cover;
+    }
+    .hero:after{
+      content:"";
+      position:absolute;inset:auto -60px -95px -60px;height:170px;
+      border-radius:50% 50% 0 0;
+      background:var(--bg);
+    }
+    .hero-content{position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 12px;border:1px solid rgba(255,255,255,.35);
+      border-radius:999px;background:rgba(0,0,0,.18);backdrop-filter:blur(8px);
+      font-size:13px;font-weight:700;letter-spacing:.08em;
+    }
+    h1{font-size:36px;line-height:1.15;margin:18px 0 10px;letter-spacing:.02em}
+    .hero p{margin:0;color:rgba(255,255,255,.88);line-height:1.7}
+    .hero-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px
+    }
+    .stat{
+      padding:12px 10px;border-radius:16px;text-align:center;
+      background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+      backdrop-filter:blur(8px)
+    }
+    .stat strong{display:block;font-size:18px}
+    .stat span{font-size:12px;color:rgba(255,255,255,.84)}
+    main{position:relative;z-index:2;padding:0 16px}
+    .section{display:none;animation:fade .22s ease}
+    .section.active{display:block}
+    @keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+    .section-head{
+      display:flex;align-items:end;justify-content:space-between;
+      margin:4px 4px 14px
+    }
+    .section-head h2{font-size:24px;margin:0}
+    .section-head p{margin:0;color:var(--muted);font-size:13px}
+    .overview{
+      margin-top:-42px;margin-bottom:18px;padding:18px;border-radius:var(--radius);
+      background:rgba(255,253,248,.96);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.75)
+    }
+    .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .mini{
+      padding:14px;border-radius:17px;background:#faf6ef;border:1px solid var(--line)
+    }
+    .mini small{display:block;color:var(--muted);margin-bottom:5px}
+    .mini b{font-size:15px}
+    .day-tabs{
+      display:flex;gap:9px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none
+    }
+    .day-tabs::-webkit-scrollbar{display:none}
+    .day-tab{
+      flex:0 0 auto;border:0;border-radius:14px;padding:11px 14px;
+      background:#eee4d6;color:var(--muted);font-weight:800;cursor:pointer
+    }
+    .day-tab.active{background:var(--primary);color:white;box-shadow:0 8px 20px rgba(178,58,47,.25)}
+    .day-panel{display:none}
+    .day-panel.active{display:block}
+    .day-summary{
+      padding:18px;margin-bottom:14px;border-radius:var(--radius);
+      color:white;background:linear-gradient(135deg,var(--primary),#d06d4e);
+      box-shadow:var(--shadow)
+    }
+    .day-summary .city{font-size:13px;opacity:.85;letter-spacing:.12em}
+    .day-summary h3{font-size:24px;margin:7px 0 6px}
+    .day-summary p{margin:0;line-height:1.6;opacity:.9}
+    .timeline{position:relative;margin-left:7px;padding-left:24px}
+    .timeline:before{
+      content:"";position:absolute;left:7px;top:8px;bottom:10px;width:2px;background:#dccab6
+    }
+    .item{position:relative;margin-bottom:14px}
+    .item:before{
+      content:"";position:absolute;left:-21px;top:21px;width:12px;height:12px;
+      border-radius:50%;background:var(--accent);border:3px solid var(--bg)
+    }
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:20px;
+      padding:17px;box-shadow:0 8px 22px rgba(78,53,34,.07)
+    }
+    .time{font-size:13px;color:var(--primary);font-weight:900;margin-bottom:6px}
+    .card h4{font-size:18px;margin:0 0 7px}
+    .card p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+    .tag{font-size:12px;padding:5px 9px;border-radius:999px;background:#f0e7da;color:#6b5b4c}
+    .actions{display:flex;gap:9px;margin-top:13px}
+    .btn{
+      border:0;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;gap:7px
+    }
+    .btn.primary{background:var(--primary);color:white}
+    .btn.secondary{background:#efe6da;color:#5e5146}
+    .notice{
+      margin:14px 0;padding:14px 15px;border-radius:16px;background:#fff5dd;
+      border:1px solid #ecd7a7;color:#735d2e;line-height:1.6;font-size:14px
+    }
+    .list-card{
+      background:var(--card);border:1px solid var(--line);border-radius:20px;
+      padding:16px;margin-bottom:13px;box-shadow:0 8px 22px rgba(78,53,34,.06)
+    }
+    .list-card h3{font-size:18px;margin:0 0 10px}
+    .route-row,.hotel-row,.budget-row{
+      display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px dashed var(--line)
+    }
+    .route-row:first-of-type,.hotel-row:first-of-type,.budget-row:first-of-type{border-top:0}
+    .icon{
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+      flex:0 0 auto;background:#f1e8dc;font-size:20px
+    }
+    .grow{flex:1;min-width:0}
+    .grow b{display:block;margin-bottom:4px}
+    .grow span{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+    .right{font-weight:900;color:var(--primary);white-space:nowrap}
+    .packing-group{margin-bottom:14px}
+    .packing-group h3{font-size:17px;margin:0 0 9px;padding-left:4px}
+    .check-item{
+      display:flex;align-items:center;gap:12px;padding:13px 14px;margin-bottom:8px;
+      background:var(--card);border:1px solid var(--line);border-radius:15px;cursor:pointer
+    }
+    .check-item input{width:21px;height:21px;accent-color:var(--primary)}
+    .check-item.done span{text-decoration:line-through;color:#a69b90}
+    .progress-wrap{
+      padding:17px;border-radius:20px;background:linear-gradient(135deg,#385f4b,#6d917a);
+      color:white;margin-bottom:15px
+    }
+    .progress-top{display:flex;justify-content:space-between;margin-bottom:10px}
+    .bar{height:10px;background:rgba(255,255,255,.22);border-radius:999px;overflow:hidden}
+    .bar i{display:block;width:0;height:100%;background:white;border-radius:999px;transition:.25s}
+    .budget-total{
+      padding:20px;border-radius:22px;color:white;
+      background:linear-gradient(135deg,#8f2c24,#c86246);box-shadow:var(--shadow);margin-bottom:15px
+    }
+    .budget-total small{opacity:.8}
+    .budget-total strong{display:block;font-size:34px;margin:5px 0}
+    .budget-note{font-size:13px;opacity:.85}
+    .bottom-nav{
+      position:fixed;z-index:99;left:50%;bottom:0;transform:translateX(-50%);
+      width:min(760px,100%);height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+      padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+      background:rgba(255,253,248,.94);backdrop-filter:blur(16px);
+      border-top:1px solid rgba(214,196,174,.8);display:grid;grid-template-columns:repeat(5,1fr)
+    }
+    .nav-btn{
+      border:0;background:transparent;border-radius:15px;color:#887a6d;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      font-size:11px;font-weight:800;cursor:pointer
+    }
+    .nav-btn span:first-child{font-size:22px;line-height:1}
+    .nav-btn.active{color:var(--primary);background:#f6e8e3}
+    .top-btn{
+      position:absolute;right:18px;top:calc(18px + env(safe-area-inset-top));
+      z-index:3;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.22);
+      color:white;border-radius:999px;padding:9px 12px;backdrop-filter:blur(8px);cursor:pointer
+    }
+    .modal{
+      position:fixed;inset:0;z-index:200;background:rgba(30,20,15,.52);
+      display:none;align-items:flex-end;justify-content:center
+    }
+    .modal.show{display:flex}
+    .modal-box{
+      width:min(760px,100%);max-height:78vh;overflow:auto;
+      background:var(--card);border-radius:26px 26px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom))
+    }
+    .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .modal-head h3{margin:0}
+    .close{border:0;background:#eee5d8;border-radius:50%;width:36px;height:36px;font-size:20px}
+    .tips li{margin-bottom:10px;line-height:1.6;color:var(--muted)}
+    @media(min-width:700px){
+      body{padding-top:20px}
+      .hero{border-radius:28px 28px 0 0}
+      .bottom-nav{bottom:12px;border:1px solid var(--line);border-radius:22px;width:min(720px,calc(100% - 24px));box-shadow:var(--shadow)}
+    }
+  </style>
 </head>
-
 <body>
-
-<header>
-
-<h1>🇨🇳 上海・蘇州・杭州</h1>
-
-<p>五天四夜自由行</p >
-
-</header>
-
-<!-- 每日行程 -->
-
-<section id="trip" class="section active">
-  <!-- Day 1 -->
-
-<div class="dayCard">
-
-<div class="dayTitle">
-🌆 Day 1｜11/13（上海）
-</div>
-
-<div class="time">
-12:05
-</div>
-
-<div class="place">
-✈️ 抵達上海浦東機場
-</div>
-
-<div class="note">
-辦手機卡（59元芒果卡套餐）
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=Shanghai+Pudong+International+Airport">
-🗺️ Google Map
-</a >
-
-</div>
-
-
-<div class="dayCard">
-
-<div class="time">
-14:00
-</div>
-
-<div class="place">
-🚇 前往南京路
-</div>
-
-<div class="note">
-建議搭乘地鐵2號線
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=南京路步行街">
-導航
-</a >
-
-</div>
-
-
-<div class="dayCard">
-
-<div class="time">
-14:30－16:30
-</div>
-
-<div class="place">
-🛍️ 南京路步行街
-</div>
-
-<div class="note">
-
-逛街・小吃推薦
-
-<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
-
-<li>小楊生煎</li>
-
-<li>鮮得來排骨年糕</li>
-
-<li>沈大成糕點</li>
-
-<li>萊萊小籠</li>
-
-</ul>
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=南京路步行街">
-Google Map
-</a >
-
-</div>
-
-
-<div class="dayCard">
-
-<div class="time">
-17:00－18:30
-</div>
-
-<div class="place">
-🌃 外灘
-</div>
-
-<div class="note">
-
-最佳拍照時間：
-黃昏～夜景
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=外灘">
-Google Map
-</a >
-
-</div>
-
-
-<div class="dayCard">
-
-<div class="time">
-18:30－20:00
-</div>
-
-<div class="place">
-🍜 晚餐
-</div>
-
-<div class="note">
-
-推薦：
-
-<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
-
-<li>南翔饅頭店</li>
-
-<li>老吉士</li>
-
-<li>上海本幫菜</li>
-
-</ul>
-
-</div>
-
-</div>
-
-
-<div class="dayCard">
-
-<div class="time">
-20:30－22:00
-</div>
-
-<div class="place">
-🌉 陸家嘴・
-<!-- Day 2 -->
-
-<div class="dayCard">
-
-<div class="dayTitle">
-🏯 Day 2｜11/14（蘇州）
-</div>
-
-<div class="time">
-09:00
-</div>
-
-<div class="place">
-🚄 上海 → 蘇州
-</div>
-
-<div class="note">
-
-建議搭乘高鐵（上海虹橋 → 蘇州站）
-
-車程約25~35分鐘
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=蘇州站">
-Google Map
-</a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-10:30－12:00
-</div>
-
-<div class="place">
-🌿 拙政園
-</div>
-
-<div class="note">
-
-中國四大名園之一
-
-建議停留約1.5小時
-
-推薦拍照：
-
-✔ 荷花池
-
-✔ 小橋流水
-
-✔ 涼亭
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=拙政園">
-Google Map
-</a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-12:00－13:00
-</div>
-
-<div class="place">
-🍜 午餐
-</div>
-
-<div class="note">
-
-推薦：
-
-<ul style="margin-top:10px;padding-left:18px;line-height:28px;">
-
-<li>蘇式麵</li>
-
-<li>松鼠桂魚</li>
-
-<li>響油鱔糊</li>
-
-<li>桂花糖藕</li>
-
-</ul>
-
-</div>
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-13:30－14:30
-</div>
-
-<div class="place">
-🦁 獅子林
-</div>
-
-<div class="note">
-
-世界文化遺產
-
-特色：
-
-太湖石假山迷宮
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=獅子林">
-Google Map
-</a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-15:00－17:00
-</div>
-
-<div class="place">
-☕ 平江路
-</div>
-
-<div class="note">
-
-拍照＋喝茶
-
-推薦：
-
-✔ 貓的天空之城
-
-✔ 琵琶語茶館
-
-✔ 文創小店
-
-✔ 河道散步
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=平江路">
-Google Map
-</a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-17:30－19:00
-</div>
-
-<div class="place">
-🍽️ 晚餐
-</div>
-
-<div class="note">
-
-推薦蘇州本幫菜
-
-</div>
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="time">
-19:00－20:30
-</div>
-
-<div class="place">
-🏮 山塘街
-</div>
-
-<div class="note">
-
-夜景推薦
-
-可以搭船
-
-推薦：
-
-✔ 桂花糕
-
-✔ 海棠糕
-
-✔ 青團
-
-</div>
-
-<a class="mapBtn"
-target="_blank"
-href="https://www.google.com/maps/search/?api=1&query=山塘街">
-Google Map
-</a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-<div class="place">
-🏨 今晚住宿
-</div>
-
-<div class="note">
-
-平江路附近
-
-方便隔天前往杭州
-
-</div>
-
-</div>
-<!-- ========================= -->
-<!-- Day 3 杭州 -->
-<!-- ========================= -->
-
-<div class="dayCard">
-
-  <div class="dayTitle">
-    🌿 Day 3｜11/15（杭州）
-  </div>
-
-  <div class="time">
-    09:00
-  </div>
-
-  <div class="place">
-    🚄 前往杭州
-  </div>
-
-  <div class="note">
-    建議搭乘高鐵<br>
-    蘇州站 ➜ 杭州東站<br>
-    車程約 1.5 小時
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href=" ">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    11:00－12:30
-  </div>
-
-  <div class="place">
-    🍜 午餐
-  </div>
-
-  <div class="note">
-    建議在西湖附近用餐
-  </div>
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    13:00－16:30
-  </div>
-
-  <div class="place">
-    🌊 西湖
-  </div>
-
-  <div class="note">
-
-    必去景點：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>📸 斷橋殘雪</li>
-      <li>🌸 曲院風荷</li>
-      <li>🌳 蘇堤</li>
-      <li>🚤 湖畔散步</li>
-    </ul>
-
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href="https://www.google.com/maps/search/?api=1&query=杭州西湖">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    16:30－17:20
-  </div>
-
-  <div class="place">
-    🗼 雷峰塔
-  </div>
-
-  <div class="note">
-    欣賞西湖全景<br>
-    建議登塔拍照
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href="https://www.google.com/maps/search/?api=1&query=雷峰塔">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    17:20－18:00
-  </div>
-
-  <div class="place">
-    ☕ MERRY WANNA BE
-  </div>
-
-  <div class="note">
-    上城區人氣咖啡店
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href="https://www.google.com/maps/search/?api=1&query=MERRY+WANNA+BE+杭州">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    18:00－20:00
-  </div>
-
-  <div class="place">
-    🏮 河坊街・南宋御街・鼓樓
-  </div>
-
-  <div class="note">
-
-    美食推薦：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>🍢 定勝糕</li>
-      <li>🥟 小籠包</li>
-      <li>🥮 蔥包燴</li>
-      <li>🧋 茶飲</li>
-    </ul>
-
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href="https://www.google.com/maps/search/?api=1&query=河坊街">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="time">
-    20:30－22:30
-  </div>
-
-  <div class="place">
-    🎵 老船長 Livehouse
-  </div>
-
-  <div class="note">
-    晚間音樂表演
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    href="https://www.google.com/maps/search/?api=1&query=老船長+Livehouse+杭州">
-    Google Map
-  </a >
-
-</div>
-
-
-
-<div class="dayCard">
-
-  <div class="place">
-    🏨 今晚住宿
-  </div>
-
-  <div class="note">
-    湖濱銀泰附近
-  </div>
-
-</div>
-<!-- ========================= -->
-<!-- Day 4 上海 -->
-<!-- ========================= -->
-
-<div class="dayCard">
-
-  <div class="dayTitle">
-    🏙️ Day 4｜11/16（上海）
-  </div>
-
-  <div class="time">
-    09:30－11:30
-  </div>
-
-  <div class="place">
-    🛕 靈隱寺＋飛來峰
-  </div>
-
-  <div class="note">
-    杭州代表性寺院與石刻景區。<br>
-    建議提早出發，並預留步行與拍照時間。
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href=" ">
-    🗺️ Google Map
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    12:00－13:00
-  </div>
-
-  <div class="place">
-    🍜 午餐
-  </div>
-
-  <div class="note">
-    建議在靈隱寺附近用餐，再準備前往小河直街。
-  </div>
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    13:30－15:30
-  </div>
-
-  <div class="place">
-    🏘️ 小河直街＋拱宸橋
-  </div>
-
-  <div class="note">
-    運河老街散步、文創小店、古橋拍照。<br><br>
-
-    建議路線：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>小河直街歷史文化街區</li>
-      <li>沿運河散步</li>
-      <li>拱宸橋拍照</li>
-      <li>附近咖啡店稍作休息</li>
+<div class="app">
+  <header class="hero">
+    <button class="top-btn" onclick="openTips()">旅遊提醒</button>
+    <div class="hero-content">
+      <div class="eyebrow">✦ 江南風景線</div>
+      <h1>上海・蘇州・杭州<br>五天四夜</h1>
+      <p>城市天際線、古典園林、西湖風光，一次收進五天旅程。</p>
+      <div class="hero-stats">
+        <div class="stat"><strong>5 天</strong><span>行程天數</span></div>
+        <div class="stat"><strong>3 城</strong><span>上海蘇州杭州</span></div>
+        <div class="stat"><strong>4 晚</strong><span>舒適住宿</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="itinerary" class="section active">
+      <div class="overview">
+        <div class="overview-grid">
+          <div class="mini"><small>建議交通</small><b>地鐵＋高鐵＋叫車</b></div>
+          <div class="mini"><small>行程節奏</small><b>早出發・晚間散步</b></div>
+          <div class="mini"><small>旅行重點</small><b>外灘・園林・西湖</b></div>
+          <div class="mini"><small>付款準備</small><b>支付寶／微信支付</b></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div><h2>每日行程</h2><p>點選日期切換</p></div>
+      </div>
+      <div class="day-tabs">
+        <button class="day-tab active" data-day="1">D1 上海</button>
+        <button class="day-tab" data-day="2">D2 上海</button>
+        <button class="day-tab" data-day="3">D3 蘇州</button>
+        <button class="day-tab" data-day="4">D4 杭州</button>
+        <button class="day-tab" data-day="5">D5 杭州</button>
+      </div>
+
+      <div class="day-panel active" data-panel="1">
+        <div class="day-summary">
+          <div class="city">DAY 1 · SHANGHAI</div>
+          <h3>抵達上海・外灘夜景</h3>
+          <p>抵達後先入住，再用南京東路與外灘開啟旅程。</p>
+        </div>
+        <div class="timeline">
+          <div class="item"><div class="card">
+            <div class="time">抵達後</div><h4>機場／車站 → 上海市區</h4>
+            <p>建議搭乘地鐵或叫車前往住宿。抵達後先寄放行李、稍作休息。</p>
+            <div class="tags"><span class="tag">預留 60–90 分鐘</span><span class="tag">先辦入住</span></div>
+          </div></div>
+          <div class="item"><div class="card">
+            <div class="time">15:30</div><h4>南京東路步行街</h4>
+            <p>感受上海最熱鬧的商業街區，沿途可逛伴手禮店、百貨與老字號。</p>
+            <div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=南京東路步行街+上海" target="_blank">🧭 開啟導航</a></div>
+          </div></div>
+          <div class="item"><div class="card">
+            <div class="time">18:00</div><h4>晚餐：上海本幫菜</h4>
+            <p>推薦品嚐小籠包、生煎包、紅燒肉、蔥油拌麵。</p>
+          </div></div>
+          <div class="item"><div class="card">
+            <div class="time">19:30</div><h4>外灘夜景</h4>
+            <p>從萬國建築群眺望陸家嘴天際線，建議由外白渡橋一路散步至十六鋪。</p>
+            <div class="tags"><span class="tag">最佳夜景</span><span class="tag">注意人潮</span></div>
+            <div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=外灘+上海" target="_blank">🧭 開啟導航</a></div>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="2">
+        <div class="day-summary">
+          <div class="city">DAY 2 · SHANGHAI</div>
+          <h3>經典上海・豫園與陸家嘴</h3>
+          <p>白天走訪老城廂，下午看城市地標，晚上自由購物。</p>
+        </div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">08:30</div><h4>豫園商城・城隍廟</h4><p>欣賞江南園林與傳統街區，可順道品嚐南翔小籠包。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=豫園+上海" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">11:30</div><h4>午餐：小籠包與上海點心</h4><p>熱門店家排隊時間較長，可避開正午尖峰。</p></div></div>
+          <div class="item"><div class="card"><div class="time">13:30</div><h4>陸家嘴金融區</h4><p>步行串聯東方明珠、上海中心大廈、金茂大廈與濱江大道。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=陸家嘴+上海" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">16:00</div><h4>上海中心觀景台／上海博物館東館</h4><p>可依天候與喜好二選一；若雲霧較重，建議改走室內博物館。</p></div></div>
+          <div class="item"><div class="card"><div class="time">19:00</div><h4>新天地・淮海中路</h4><p>晚餐後散步，感受石庫門街區與現代商圈融合的氛圍。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=上海新天地" target="_blank">🧭 開啟導航</a></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="3">
+        <div class="day-summary">
+          <div class="city">DAY 3 · SUZHOU</div>
+          <h3>上海 → 蘇州・園林水鄉</h3>
+          <p>搭高鐵前往蘇州，走訪拙政園、平江路與山塘街。</p>
+        </div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">07:30</div><h4>退房・前往上海虹橋站</h4><p>建議至少提早 45–60 分鐘抵達車站，預留安檢與找月台時間。</p></div></div>
+          <div class="item"><div class="card"><div class="time">09:00</div><h4>高鐵：上海虹橋 → 蘇州</h4><p>車程約 25–40 分鐘，抵達後先寄放行李。</p></div></div>
+          <div class="item"><div class="card"><div class="time">10:30</div><h4>拙政園</h4><p>中國四大名園之一，建議預留 1.5–2 小時慢慢欣賞。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=拙政園+蘇州" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">13:00</div><h4>蘇州博物館／獅子林</h4><p>蘇州博物館通常需預約；若未預約，可改走獅子林。</p></div></div>
+          <div class="item"><div class="card"><div class="time">15:30</div><h4>平江路歷史街區</h4><p>沿河散步、逛茶館與文創店，適合拍攝江南水巷。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=平江路歷史街區+蘇州" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">19:00</div><h4>七里山塘夜景</h4><p>晚餐後欣賞河岸燈景，可視體力搭乘遊船。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=山塘街+蘇州" target="_blank">🧭 開啟導航</a></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="4">
+        <div class="day-summary">
+          <div class="city">DAY 4 · HANGZHOU</div>
+          <h3>蘇州 → 杭州・西湖日落</h3>
+          <p>上午移動至杭州，下午環遊西湖，晚上看音樂噴泉或湖濱夜景。</p>
+        </div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">08:00</div><h4>退房・前往蘇州站</h4><p>搭高鐵前往杭州東站，建議選擇直達班次。</p></div></div>
+          <div class="item"><div class="card"><div class="time">10:30</div><h4>抵達杭州・寄放行李</h4><p>從杭州東站搭地鐵進入西湖或湖濱商圈。</p></div></div>
+          <div class="item"><div class="card"><div class="time">12:00</div><h4>午餐：杭幫菜</h4><p>推薦東坡肉、龍井蝦仁、叫化雞、西湖醋魚。</p></div></div>
+          <div class="item"><div class="card"><div class="time">13:30</div><h4>西湖遊船・三潭印月</h4><p>搭船欣賞湖心景色，視時間安排登島或環湖遊覽。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=西湖遊船碼頭+杭州" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">16:00</div><h4>蘇堤・花港觀魚</h4><p>沿湖散步，傍晚光線柔和，適合拍照與休息。</p></div></div>
+          <div class="item"><div class="card"><div class="time">19:00</div><h4>湖濱步行街・西湖夜景</h4><p>晚餐後散步，可留意音樂噴泉公告與現場管制。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=湖濱步行街+杭州" target="_blank">🧭 開啟導航</a></div></div></div>
+        </div>
+      </div>
+
+      <div class="day-panel" data-panel="5">
+        <div class="day-summary">
+          <div class="city">DAY 5 · HANGZHOU</div>
+          <h3>靈隱寺・返程</h3>
+          <p>早晨走訪靈隱景區，午餐後前往機場或車站。</p>
+        </div>
+        <div class="timeline">
+          <div class="item"><div class="card"><div class="time">07:30</div><h4>退房・寄放行李</h4><p>確認返程航班或車次，保留充裕移動時間。</p></div></div>
+          <div class="item"><div class="card"><div class="time">08:30</div><h4>靈隱寺・飛來峰</h4><p>景區範圍較大，建議穿好走的鞋，並預留 2–3 小時。</p><div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=靈隱寺+杭州" target="_blank">🧭 開啟導航</a></div></div></div>
+          <div class="item"><div class="card"><div class="time">12:00</div><h4>午餐・最後採買</h4><p>可購買龍井茶、藕粉、糕點等杭州伴手禮。</p></div></div>
+          <div class="item"><div class="card"><div class="time">依班次</div><h4>前往杭州東站／蕭山機場</h4><p>國際航班建議提早至少 3 小時抵達機場；高鐵建議提早 45–60 分鐘。</p></div></div>
+        </div>
+      </div>
+      <div class="notice">行程時間為建議值，實際請依航班、高鐵班次、預約時段、天候與現場人流調整。</div>
+    </section>
+
+    <section id="transport" class="section">
+      <div class="section-head"><div><h2>交通</h2><p>城市間與市區移動</p></div></div>
+      <div class="list-card">
+        <h3>城市間交通</h3>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>上海虹橋 → 蘇州</b><span>高鐵約 25–40 分鐘，建議預先購票並提早抵達。</span></div></div>
+        <div class="route-row"><div class="icon">🚄</div><div class="grow"><b>蘇州 → 杭州東</b><span>高鐵約 1.5–2.5 小時，優先選直達班次。</span></div></div>
+        <div class="route-row"><div class="icon">✈️</div><div class="grow"><b>杭州東／市區 → 蕭山機場</b><span>可搭地鐵或叫車，尖峰時段務必多留時間。</span></div></div>
+      </div>
+      <div class="list-card">
+        <h3>市區交通建議</h3>
+        <div class="route-row"><div class="icon">🚇</div><div class="grow"><b>地鐵</b><span>上海、蘇州、杭州主要景點多可搭地鐵抵達。</span></div></div>
+        <div class="route-row"><div class="icon">🚕</div><div class="grow"><b>叫車</b><span>攜帶行李、多人同行或夜間移動時較方便。</span></div></div>
+        <div class="route-row"><div class="icon">🚶</div><div class="grow"><b>步行</b><span>外灘、平江路、山塘街與西湖周邊皆適合步行。</span></div></div>
+      </div>
+      <div class="notice">中國境內 Google Maps 資訊可能不完整，實際導航可搭配高德地圖或百度地圖使用。</div>
+    </section>
+
+    <section id="hotels" class="section">
+      <div class="section-head"><div><h2>住宿</h2><p>四晚住宿配置</p></div></div>
+      <div class="list-card">
+        <h3>上海｜2 晚</h3>
+        <div class="hotel-row"><div class="icon">🏨</div><div class="grow"><b>建議區域：南京東路／人民廣場</b><span>交通方便，前往外灘、豫園、陸家嘴與虹橋站都較順。</span></div></div>
+        <div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=上海+南京東路+飯店" target="_blank">查看附近飯店</a></div>
+      </div>
+      <div class="list-card">
+        <h3>蘇州｜1 晚</h3>
+        <div class="hotel-row"><div class="icon">🏡</div><div class="grow"><b>建議區域：觀前街／平江路</b><span>方便遊覽古城區，晚上前往山塘街也不遠。</span></div></div>
+        <div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=蘇州+平江路+飯店" target="_blank">查看附近飯店</a></div>
+      </div>
+      <div class="list-card">
+        <h3>杭州｜1 晚</h3>
+        <div class="hotel-row"><div class="icon">🌿</div><div class="grow"><b>建議區域：湖濱／龍翔橋</b><span>靠近西湖與地鐵，晚上散步、隔日前往靈隱寺都方便。</span></div></div>
+        <div class="actions"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=杭州+湖濱+飯店" target="_blank">查看附近飯店</a></div>
+      </div>
+      <div class="notice">入住前確認：護照登記、押金規定、早餐時間、是否可寄放行李、房型是否禁菸。</div>
+    </section>
+
+    <section id="packing" class="section">
+      <div class="section-head"><div><h2>行李清單</h2><p>勾選後會自動記住</p></div></div>
+      <div class="progress-wrap">
+        <div class="progress-top"><b>打包進度</b><span id="progressText">0 / 0</span></div>
+        <div class="bar"><i id="progressBar"></i></div>
+      </div>
+      <div id="packingList"></div>
+      <button class="btn secondary" style="width:100%;margin-top:4px" onclick="resetPacking()">重設全部勾選</button>
+    </section>
+
+    <section id="budget" class="section">
+      <div class="section-head"><div><h2>預算</h2><p>每人概算・人民幣</p></div></div>
+      <div class="budget-total">
+        <small>五天四夜每人預估</small>
+        <strong>¥ 4,800</strong>
+        <div class="budget-note">未含台灣往返機票與大量購物</div>
+      </div>
+      <div class="list-card">
+        <div class="budget-row"><div class="icon">🏨</div><div class="grow"><b>住宿 4 晚</b><span>中等價位雙人房，以兩人分攤估算</span></div><div class="right">¥1,800</div></div>
+        <div class="budget-row"><div class="icon">🚄</div><div class="grow"><b>高鐵與市區交通</b><span>上海→蘇州→杭州＋地鐵叫車</span></div><div class="right">¥650</div></div>
+        <div class="budget-row"><div class="icon">🍜</div><div class="grow"><b>餐飲</b><span>每日三餐、飲料與小吃</span></div><div class="right">¥1,250</div></div>
+        <div class="budget-row"><div class="icon">🎫</div><div class="grow"><b>門票與遊船</b><span>園林、觀景台、西湖遊船等</span></div><div class="right">¥650</div></div>
+        <div class="budget-row"><div class="icon">🛍️</div><div class="grow"><b>伴手禮與備用金</b><span>依個人購物習慣調整</span></div><div class="right">¥450</div></div>
+      </div>
+      <div class="notice">建議另準備 10–15% 彈性預算。景點票價、住宿與交通費會依日期、房型及購票時間變動。</div>
+    </section>
+  </main>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-target="itinerary"><span>🗓️</span><span>每日行程</span></button>
+  <button class="nav-btn" data-target="transport"><span>🚄</span><span>交通</span></button>
+  <button class="nav-btn" data-target="hotels"><span>🏨</span><span>住宿</span></button>
+  <button class="nav-btn" data-target="packing"><span>🧳</span><span>行李</span></button>
+  <button class="nav-btn" data-target="budget"><span>💰</span><span>預算</span></button>
+</nav>
+
+<div id="tipsModal" class="modal" onclick="closeTips(event)">
+  <div class="modal-box">
+    <div class="modal-head"><h3>出發前提醒</h3><button class="close" onclick="closeTips()">×</button></div>
+    <ul class="tips">
+      <li>護照、台胞證與訂房資料請同時保留電子版及離線截圖。</li>
+      <li>高鐵與熱門景點建議提前預約，並確認實名資料一致。</li>
+      <li>預先完成支付寶或微信支付綁卡，另準備少量人民幣現金。</li>
+      <li>下載離線地圖、翻譯工具、航空公司與訂票 App。</li>
+      <li>每天出門攜帶行動電源、雨具、飲用水與舒適步行鞋。</li>
     </ul>
   </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=杭州小河直街歷史文化街區">
-    🗺️ 小河直街
-  </a >
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    style="margin-left:8px;margin-top:8px;"
-    href="https://www.google.com/maps/search/?api=1&query=杭州拱宸橋">
-    🗺️ 拱宸橋
-  </a >
-
 </div>
 
-
-<div class="dayCard">
-
-  <div class="time">
-    16:00
-  </div>
-
-  <div class="place">
-    🚄 杭州返回上海
-  </div>
-
-  <div class="note">
-    建議從杭州東站搭乘高鐵前往上海虹橋站。<br>
-    車程通常約 45－70 分鐘，實際依班次為準。<br>
-    建議至少提前 40 分鐘抵達車站。
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=杭州東站">
-    🗺️ 杭州東站
-  </a >
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    style="margin-left:8px;margin-top:8px;"
-    href="https://www.google.com/maps/search/?api=1&query=上海虹橋站">
-    🗺️ 上海虹橋站
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    18:00－20:00
-  </div>
-
-  <div class="place">
-    🏯 豫園＋城隍廟
-  </div>
-
-  <div class="note">
-    欣賞傳統建築夜景，逛商店與小吃街。<br><br>
-
-    美食建議：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>南翔小籠包</li>
-      <li>生煎包</li>
-      <li>排骨年糕</li>
-      <li>梨膏糖</li>
-      <li>桂花糕</li>
-    </ul>
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=上海豫園">
-    🗺️ 豫園
-  </a >
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    style="margin-left:8px;margin-top:8px;"
-    href="https://www.google.com/maps/search/?api=1&query=上海城隍廟">
-    🗺️ 城隍廟
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="place">
-    🏨 今晚住宿
-  </div>
-
-  <div class="note">
-    上海靜安區
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=上海靜安區">
-    🗺️ 查看區域
-  </a >
-
-</div>
-<!-- ========================= -->
-<!-- Day 5 上海 -->
-<!-- ========================= -->
-
-<div class="dayCard">
-
-  <div class="dayTitle">
-    ✈️ Day 5｜11/17（返程）
-  </div>
-
-  <div class="time">
-    09:30－11:30
-  </div>
-
-  <div class="place">
-    🌳 武康路（法式梧桐街道）
-  </div>
-
-  <div class="note">
-    上海最具代表性的法租界街道。<br>
-    建議慢慢散步拍照、咖啡店巡禮。
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href=" ">
-    🗺️ Google Map
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    12:00－13:30
-  </div>
-
-  <div class="place">
-    🎨 田子坊
-  </div>
-
-  <div class="note">
-
-    文創小店、美食與伴手禮。
-
-    <br><br>
-
-    推薦：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>上海伴手禮</li>
-      <li>特色咖啡店</li>
-      <li>手作飾品</li>
-      <li>特色甜點</li>
-    </ul>
-
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=田子坊">
-    🗺️ Google Map
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    14:00－16:00
-  </div>
-
-  <div class="place">
-    🏙️ 新天地
-  </div>
-
-  <div class="note">
-
-    最後購物與下午茶。
-
-    <br><br>
-
-    推薦：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>星巴克臻選</li>
-      <li>Shake Shack</li>
-      <li>精品商店</li>
-      <li>石庫門建築拍照</li>
-    </ul>
-
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=上海新天地">
-    🗺️ Google Map
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    約16:00
-  </div>
-
-  <div class="place">
-    🚇 前往浦東國際機場
-  </div>
-
-  <div class="note">
-
-    建議至少提前三小時抵達。
-
-    <br>
-
-    可搭乘：
-
-    <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-      <li>🚇 地鐵2號線</li>
-      <li>🚄 磁浮列車</li>
-      <li>🚖 滴滴／計程車</li>
-    </ul>
-
-  </div>
-
-  <a
-    class="mapBtn"
-    target="_blank"
-    rel="noopener"
-    href="https://www.google.com/maps/search/?api=1&query=上海浦東國際機場">
-    🗺️ Google Map
-  </a >
-
-</div>
-
-
-<div class="dayCard">
-
-  <div class="time">
-    20:10
-  </div>
-
-  <div class="place">
-    ✈️ 返回台北
-  </div>
-
-  <div class="note">
-
-    五天四夜旅程結束。
-
-    <br><br>
-
-    🎉 祝旅途愉快！
-
-  </div>
-
-</div>
-
-</section>
-<!-- ========================= -->
-<!-- 交通頁 -->
-<!-- ========================= -->
-
-<section id="transport" class="section">
-
-  <div class="dayCard">
-    <div class="dayTitle">
-      🚄 城市間交通
-    </div>
-
-    <div class="place">
-      上海 → 蘇州
-    </div>
-
-    <div class="note">
-      建議搭乘高鐵。<br>
-      出發站：上海虹橋站<br>
-      抵達站：蘇州站<br>
-      車程：約 25－35 分鐘<br>
-      建議提早 30－45 分鐘抵達車站。
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href=" ">
-      🗺️ 上海虹橋站
-    </a >
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      style="margin-left:8px;margin-top:8px;"
-      href="https://www.google.com/maps/search/?api=1&query=蘇州站">
-      🗺️ 蘇州站
-    </a >
-  </div>
-
-
-  <div class="dayCard">
-    <div class="place">
-      蘇州 → 杭州
-    </div>
-
-    <div class="note">
-      建議搭乘高鐵。<br>
-      出發站：蘇州站<br>
-      抵達站：杭州東站<br>
-      車程：約 1.5 小時<br>
-      熱門時段建議提前購票。
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/search/?api=1&query=蘇州站">
-      🗺️ 蘇州站
-    </a >
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      style="margin-left:8px;margin-top:8px;"
-      href="https://www.google.com/maps/search/?api=1&query=杭州東站">
-      🗺️ 杭州東站
-    </a >
-  </div>
-
-
-  <div class="dayCard">
-    <div class="place">
-      杭州 → 上海
-    </div>
-
-    <div class="note">
-      建議搭乘高鐵。<br>
-      出發站：杭州東站<br>
-      抵達站：上海虹橋站<br>
-      車程：約 45－70 分鐘<br>
-      抵達上海後可轉乘地鐵前往靜安區。
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/search/?api=1&query=杭州東站">
-      🗺️ 杭州東站
-    </a >
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      style="margin-left:8px;margin-top:8px;"
-      href="https://www.google.com/maps/search/?api=1&query=上海虹橋站">
-      🗺️ 上海虹橋站
-    </a >
-  </div>
-
-
-  <div class="dayCard">
-    <div class="dayTitle">
-      ✈️ 機場交通
-    </div>
-
-    <div class="place">
-      上海浦東國際機場 → 市區
-    </div>
-
-    <div class="note">
-      方案一：地鐵 2 號線<br>
-      價格較便宜，但車程較長。<br><br>
-
-      方案二：磁浮列車＋地鐵<br>
-      可先搭磁浮至龍陽路，再轉乘地鐵。<br><br>
-
-      方案三：滴滴／計程車<br>
-      適合多人同行或行李較多。
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/dir/?api=1&origin=上海浦東國際機場&destination=南京路步行街">
-      🧭 導航至南京路
-    </a >
-  </div>
-
-
-  <div class="dayCard">
-    <div class="place">
-      上海市區 → 浦東國際機場
-    </div>
-
-    <div class="note">
-      回程航班時間為 20:10。<br>
-      建議最晚 16:00 左右離開新天地。<br>
-      國際航班建議提前至少 3 小時抵達機場。<br>
-      若遇尖峰時段，請預留更多交通時間。
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/dir/?api=1&origin=上海新天地&destination=上海浦東國際機場">
-      🧭 導航至機場
-    </a >
-  </div>
-
-
-  <div class="dayCard">
-    <div class="dayTitle">
-      🚇 市區交通建議
-    </div>
-
-    <div class="note">
-      上海：以地鐵為主，景點間距離較遠。<br><br>
-
-      蘇州：可搭地鐵、計程車，平江路與園林區適合步行。<br><br>
-
-      杭州：西湖周邊建議步行或搭公車，跨區可使用地鐵與計程車。<br><br>
-
-      建議使用支付寶或微信支付搭乘大眾運輸。
-    </div>
-  </div>
-
-
-  <div class="dayCard">
-    <div class="dayTitle">
-      📌 搭車提醒
-    </div>
-
-    <div class="note">
-      1. 高鐵進站通常需要安檢與證件查驗。<br><br>
-      2. 請準備台胞證或可使用的旅行證件。<br><br>
-      3. 熱門班次建議提前購票。<br><br>
-      4. 上下班尖峰時段，地鐵可能十分擁擠。<br><br>
-      5. Google Maps 在中國部分地區資訊可能不完整，可搭配高德地圖或百度地圖使用。
-    </div>
-  </div>
-
-</section>
-<!-- ========================= -->
-<!-- 住宿 -->
-<!-- ========================= -->
-
-<section id="hotel" class="section">
-
-  <div class="dayCard">
-
-    <div class="dayTitle">
-      🏨 住宿資訊
-    </div>
-
-    <div class="note">
-      本次共入住三間住宿
-    </div>
-
-  </div>
-
-  <!-- 上海 -->
-
-  <div class="dayCard">
-
-    <div class="place">
-      🌆 上海（Day1）
-    </div>
-
-    <div class="note">
-
-      📍住宿區域：靜安區
-
-      <br><br>
-
-      入住日期：11/13
-
-      <br>
-
-      退房日期：11/14
-
-      <br><br>
-
-      優點：
-
-      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-        <li>南京路方便</li>
-        <li>外灘交通便利</li>
-        <li>地鐵路線多</li>
-      </ul>
-
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href=" ">
-      📍 查看地圖
-    </a >
-
-  </div>
-
-
-
-  <!-- 蘇州 -->
-
-  <div class="dayCard">
-
-    <div class="place">
-      🏯 蘇州（Day2）
-    </div>
-
-    <div class="note">
-
-      📍住宿區域：平江路附近
-
-      <br><br>
-
-      入住日期：11/14
-
-      <br>
-
-      退房日期：11/15
-
-      <br><br>
-
-      步行可到：
-
-      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-        <li>平江路</li>
-        <li>拙政園</li>
-        <li>獅子林</li>
-      </ul>
-
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/search/?api=1&query=蘇州平江路">
-      📍 查看地圖
-    </a >
-
-  </div>
-
-
-
-  <!-- 杭州 -->
-
-  <div class="dayCard">
-
-    <div class="place">
-      🌿 杭州（Day3）
-    </div>
-
-    <div class="note">
-
-      📍住宿區域：湖濱銀泰附近
-
-      <br><br>
-
-      入住日期：11/15
-
-      <br>
-
-      退房日期：11/16
-
-      <br><br>
-
-      附近景點：
-
-      <ul style="margin-top:10px;padding-left:18px;line-height:30px;">
-        <li>西湖</li>
-        <li>河坊街</li>
-        <li>南宋御街</li>
-      </ul>
-
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/search/?api=1&query=杭州湖濱銀泰">
-      📍 查看地圖
-    </a >
-
-  </div>
-
-
-
-  <!-- 上海 -->
-
-  <div class="dayCard">
-
-    <div class="place">
-      🌃 上海（Day4）
-    </div>
-
-    <div class="note">
-
-      📍住宿區域：靜安區
-
-      <br><br>
-
-      入住日期：11/16
-
-      <br>
-
-      退房日期：11/17
-
-      <br><br>
-
-      隔天方便前往浦東機場。
-
-    </div>
-
-    <a
-      class="mapBtn"
-      target="_blank"
-      rel="noopener"
-      href="https://www.google.com/maps/search/?api=1&query=上海靜安區">
-      📍 查看地圖
-    </a >
-
-  </div>
-
-
-
-  <div class="dayCard">
-
-    <div class="dayTitle">
-      📝 入住提醒
-    </div>
-
-    <div class="note">
-
-      ✔ 護照／台胞證
-
-      <br><br>
-
-      ✔ 訂房確認信
-
-      <br><br>
-
-      ✔ 飯店地址截圖
-
-      <br><br>
-
-      ✔ 飯店電話
-
-      <br><br>
-
-      ✔ Check-in 通常 15:00 後
-
-      <br><br>
-
-      ✔ Check-out 約 11:00～12:00
-
-    </div>
-
-  </div>
-
-</section>
-<!-- =========================
-     行李清單頁面
-========================= -->
-<section id="page-packing" class="page">
-  <div class="page-header">
-    <div>
-      <p class="page-eyebrow">PACKING LIST</p >
-      <h1>行李清單</h1>
-      <p class="page-description">
-        勾選狀態會自動儲存在手機中，下次開啟仍會保留。
-      </p >
-    </div>
-  </div>
-
-  <!-- 行李進度 -->
-  <div class="packing-progress-card">
-    <div class="packing-progress-top">
-      <div>
-        <span class="packing-progress-label">準備進度</span>
-        <strong id="packing-progress-text">0 / 0</strong>
-      </div>
-
-      <button
-        type="button"
-        class="packing-reset-button"
-        onclick="resetPackingList()"
-      >
-        全部取消
-      </button>
-    </div>
-
-    <div class="packing-progress-track">
-      <div
-        id="packing-progress-bar"
-        class="packing-progress-bar"
-        style="width: 0%"
-      ></div>
-    </div>
-  </div>
-
-  <!-- 證件與重要物品 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">🪪</span>
-      <div>
-        <h2>證件與重要物品</h2>
-        <p>出發前務必再次確認</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="passport">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>護照</strong>
-          <small>確認有效期限至少還有 6 個月</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="flight-ticket">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>機票／電子登機證</strong>
-          <small>建議先截圖保存在手機</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="hotel-booking">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>住宿訂房資料</strong>
-          <small>保存飯店地址與訂單編號</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="insurance">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>旅遊保險資料</strong>
-          <small>包含保單與緊急聯絡方式</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="cash">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>現金</strong>
-          <small>建議分開放置，不要集中在同一處</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="credit-card">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>信用卡／提款卡</strong>
-          <small>確認海外交易功能已開啟</small>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 電子用品 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">🔌</span>
-      <div>
-        <h2>電子用品</h2>
-        <p>充電與拍照裝備</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="phone">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>手機</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="phone-charger">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>手機充電器與充電線</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="power-bank">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>行動電源</strong>
-          <small>請放隨身行李，不可託運</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="adapter">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>轉接插頭</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="earphones">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>耳機</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="camera">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>相機／記憶卡</strong>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 衣物 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">👕</span>
-      <div>
-        <h2>衣物</h2>
-        <p>依照旅遊天數調整數量</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="tops">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>上衣</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="pants">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>褲子／裙子</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="underwear">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>內衣褲</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="socks">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>襪子</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="sleepwear">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>睡衣</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="jacket">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>薄外套</strong>
-          <small>飛機與室內冷氣較強時可使用</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="shoes">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>舒適好走的鞋子</strong>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 盥洗與保養 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">🧴</span>
-      <div>
-        <h2>盥洗與保養</h2>
-        <p>液體用品注意容量限制</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="toothbrush">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>牙刷／牙膏</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="face-wash">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>洗面乳</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="skincare">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>保養品</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="sunscreen">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>防曬用品</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="cosmetics">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>化妝品／卸妝用品</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="towel">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>毛巾</strong>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 藥品與健康 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">💊</span>
-      <div>
-        <h2>藥品與健康</h2>
-        <p>個人常備藥請隨身攜帶</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="personal-medicine">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>個人處方藥</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="painkiller">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>止痛藥</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="stomach-medicine">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>腸胃藥</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="motion-sickness">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>暈車／暈船藥</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="bandage">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>OK 繃</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="mask">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>口罩</strong>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 其他用品 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">🎒</span>
-      <div>
-        <h2>其他用品</h2>
-        <p>旅途中可能會使用的物品</p >
-      </div>
-    </div>
-
-    <div class="packing-list">
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="umbrella">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>摺疊傘</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="water-bottle">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>水壺</strong>
-          <small>通過安檢後再裝水</small>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="tissue">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>衛生紙／濕紙巾</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="shopping-bag">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>環保購物袋</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="laundry-bag">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>髒衣袋／塑膠袋</strong>
-        </span>
-      </label>
-
-      <label class="packing-item">
-        <input type="checkbox" data-packing-id="travel-pillow">
-        <span class="packing-checkbox"></span>
-        <span class="packing-item-content">
-          <strong>頸枕／眼罩</strong>
-        </span>
-      </label>
-    </div>
-  </div>
-
-  <!-- 自訂清單 -->
-  <div class="packing-category">
-    <div class="packing-category-title">
-      <span class="packing-category-icon">✏️</span>
-      <div>
-        <h2>我的自訂清單</h2>
-        <p>新增自己需要攜帶的物品</p >
-      </div>
-    </div>
-
-    <div class="packing-add-box">
-      <input
-        id="packing-custom-input"
-        type="text"
-        maxlength="40"
-        placeholder="例如：隱形眼鏡、泳衣……"
-        autocomplete="off"
-      >
-
-      <button
-        type="button"
-        class="packing-add-button"
-        onclick="addCustomPackingItem()"
-      >
-        新增
-      </button>
-    </div>
-
-    <div id="packing-custom-list" class="packing-list"></div>
-  </div>
-
-  <div class="packing-bottom-space"></div>
-</section>
+<script>
+  const navButtons = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('.section');
+  navButtons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      navButtons.forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      sections.forEach(s=>s.classList.toggle('active',s.id===btn.dataset.target));
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+
+  const dayTabs = document.querySelectorAll('.day-tab');
+  const dayPanels = document.querySelectorAll('.day-panel');
+  dayTabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      dayTabs.forEach(x=>x.classList.remove('active'));
+      dayPanels.forEach(x=>x.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`[data-panel="${tab.dataset.day}"]`).classList.add('active');
+    });
+  });
+
+  const packingData = {
+    "證件與金流":["護照","台胞證","機票／高鐵訂單","住宿確認單","信用卡","少量人民幣現金"],
+    "電子用品":["手機","充電線","行動電源","萬用轉接頭","耳機","相機／記憶卡"],
+    "衣物":["上衣","褲子／裙子","內衣褲","襪子","薄外套","睡衣","舒適步行鞋"],
+    "盥洗與保健":["牙刷牙膏","保養品","防曬","個人藥品","口罩","濕紙巾／衛生紙"],
+    "旅行用品":["折疊雨傘","水壺","環保袋","小包／斜背包","行李吊牌","零食"]
+  };
+
+  function renderPacking(){
+    const saved = JSON.parse(localStorage.getItem('jiangnanPacking') || '{}');
+    const root = document.getElementById('packingList');
+    root.innerHTML = '';
+    let index = 0;
+    Object.entries(packingData).forEach(([group,items])=>{
+      const box = document.createElement('div');
+      box.className='packing-group';
+      box.innerHTML=`<h3>${group}</h3>`;
+      items.forEach(item=>{
+        const id='pack-'+index++;
+        const checked=!!saved[id];
+        const label=document.createElement('label');
+        label.className='check-item'+(checked?' done':'');
+        label.innerHTML=`<input id="${id}" type="checkbox" ${checked?'checked':''}><span>${item}</span>`;
+        label.querySelector('input').addEventListener('change',e=>{
+          const current=JSON.parse(localStorage.getItem('jiangnanPacking') || '{}');
+          current[id]=e.target.checked;
+          localStorage.setItem('jiangnanPacking',JSON.stringify(current));
+          label.classList.toggle('done',e.target.checked);
+          updateProgress();
+        });
+        box.appendChild(label);
+      });
+      root.appendChild(box);
+    });
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const checks=[...document.querySelectorAll('#packingList input[type=checkbox]')];
+    const done=checks.filter(x=>x.checked).length;
+    document.getElementById('progressText').textContent=`${done} / ${checks.length}`;
+    document.getElementById('progressBar').style.width=checks.length?`${done/checks.length*100}%`:'0%';
+  }
+
+  function resetPacking(){
+    localStorage.removeItem('jiangnanPacking');
+    renderPacking();
+  }
+
+  function openTips(){document.getElementById('tipsModal').classList.add('show')}
+  function closeTips(e){
+    if(!e || e.target.id==='tipsModal' || e.target.classList.contains('close')){
+      document.getElementById('tipsModal').classList.remove('show')
+    }
+  }
+
+  renderPacking();
+</script>
+</body>
+</html>
